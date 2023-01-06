@@ -11,8 +11,11 @@
 
     <artifactId>common</artifactId>
     <packaging>pom</packaging>
+
     <modules>
         <module>common-domain</module>
+        <module>common-api</module>
+        <module>common-persistence</module>
     </modules>
 
 </project>
