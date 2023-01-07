@@ -37,7 +37,7 @@ public class PaymentApplicationServiceImpl implements PaymentApplicationService 
                 .orElseGet(
                     // If the idempotency key is not present then validate and process the payment
                     () -> {
-
+                        paymentTransactionMapper.commandToDomainModel(command);
                         return null;
                     }
                 );

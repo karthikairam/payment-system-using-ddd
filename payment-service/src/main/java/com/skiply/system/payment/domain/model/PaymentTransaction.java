@@ -58,6 +58,7 @@ public class PaymentTransaction extends AggregateRoot<PaymentTransactionId> {
 
     public void initializePayment() {
         this.id = new PaymentTransactionId(UUID.randomUUID());
+        this.transactionDateTime = OffsetDateTime.now();
         this.paymentTransactionStatus = PaymentTransactionStatus.PENDING;
         initializePurchaseItems();
     }
