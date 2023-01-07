@@ -2,4 +2,4 @@ package com.skiply.system.common.domain.model.valueobject;
 
 import java.util.UUID;
 
-public record PaymentId(UUID value) implements ValueObject {}
+public record PaymentTransactionId(UUID value) implements ValueObject {}

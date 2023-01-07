@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -21,7 +22,7 @@ import java.util.Objects;
 public class PaymentTransactionEntity {
     @Id
     @Column(name = "id")
-    private String id;
+    private UUID id;
     @Column(name = "created_at")
     private OffsetDateTime createdAt;
     @Column(name = "student_id")
