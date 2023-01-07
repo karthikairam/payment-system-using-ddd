@@ -1,0 +1,47 @@
+server:
+  port: 8081
+
+spring:
+  datasource:
+    url: jdbc:h2:file:./h2-db/skiply-student-db;MODE=PostgreSQL;DATABASE_TO_UPPER=false;DB_CLOSE_DELAY=-1
+    driverClassName: org.h2.Driver
+    username: ${DB_USER:sa}
+    password: ${DB_PWD:password}
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        default_schema: student
+    hibernate:
+      ddl-auto: none
+    database-platform: org.hibernate.dialect.PostgreSQL95Dialect
+    # Refer: https://www.baeldung.com/spring-open-session-in-view#2-pattern-or-anti-pattern
+    open-in-view: false
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        trace: false
+        web-allow-others: true
+  flyway:
+    schema: PUBLIC
+    baseline-on-migrate: true
+
+management:
+  server:
+    port: 9091
+
+springdoc:
+  show-actuator: true
+  default-produces-media-type: application/json
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: INFO
+        type:
+          descriptor:
+            sql:
+              BasicBinder: INFO
