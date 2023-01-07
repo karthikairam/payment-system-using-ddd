@@ -11,7 +11,7 @@
 
     <artifactId>student-service</artifactId>
     <name>student-service</name>
-    <description>This micro-service provides APIs to register student and emits student registration event with student
+    <description>This microservice provides APIs to register student and emits student registration event with student
         details for the interested consumers.
     </description>
 

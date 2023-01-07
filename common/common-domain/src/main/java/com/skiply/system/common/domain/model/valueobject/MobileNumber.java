@@ -11,8 +11,7 @@ public record MobileNumber(String value) implements ValueObject {
             return null;
         }
         String trimmedValue = value.trim();
-        if (trimmedValue.length() > 20
-                || !trimmedValue.matches("^(?:\\+|00)?(?:971)?[\\s.-]?(?:\\(?[0-9]{2}\\)?[\\s.-]?)?[0-9]{7}$")) {
+        if (!trimmedValue.matches("^(?:00971|\\+971|0)?\\d{9}$")) {
             throw new IllegalArgumentException("Invalid MobileNumber");
         }
         return trimmedValue;
