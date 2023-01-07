@@ -1,9 +1,7 @@
 package com.skiply.system.student.infrastructure.persistence.entity;
 
 import com.skiply.system.common.domain.model.valueobject.MobileNumber;
-import com.skiply.system.common.domain.model.valueobject.StudentId;
 import com.skiply.system.common.persistence.converter.MobileNumberRepoConverter;
-import com.skiply.system.common.persistence.converter.StudentIdRepoConverter;
 import lombok.*;
 
 import javax.persistence.*;
@@ -13,12 +11,20 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "student")
+@Table(name = "students")
+@Entity
 public class StudentEntity {
+
     @Id
-    @Convert(converter = StudentIdRepoConverter.class)
     @Column(name = "student_id")
-    private StudentId studentId;
+    /*
+       This ValueObject (Java Record) class cannot be used in a Primary key (ID) field.
+       Because @Id & @Convert does not work in Hibernate. @Convert works only with normal columns like "mobileNumber".
+       Also, we can't use @EmbeddedId as Hibernate requires a NoArgConstructor that is against value objects pattern.
+       Moreover, it pollutes the ValueObjects with JPA annotations.
+       So, I am simply went with primitive String type here.
+     */
+    private String studentId;
 
     @Column(name = "student_name")
     private String studentName;
@@ -32,4 +38,7 @@ public class StudentEntity {
 
     @Column(name = "school_name")
     private String schoolName;
+
+    @Column(name = "active")
+    private boolean active;
 }

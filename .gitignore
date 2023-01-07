@@ -33,3 +33,6 @@ build/
 .vscode/
 
 .DS_Store
+
+### Custom location for H2 DB file storage from current location
+h2-db/

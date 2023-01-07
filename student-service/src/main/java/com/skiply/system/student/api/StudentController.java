@@ -3,6 +3,7 @@ package com.skiply.system.student.api;
 import com.skiply.system.student.api.register.RegisterStudentCommand;
 import com.skiply.system.student.api.register.RegisterStudentResponse;
 import com.skiply.system.student.service.StudentApplicationService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import javax.validation.Valid;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/v1/students")
+@Tag(name = "Student Management APIs", description = "The API is used to register students in the skiply system.")
 public class StudentController {
 
     private final StudentApplicationService studentApplicationService;

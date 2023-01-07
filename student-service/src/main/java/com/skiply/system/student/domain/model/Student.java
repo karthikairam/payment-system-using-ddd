@@ -10,10 +10,9 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 // Equals & Hashcode methods are inherited from BaseModel via AggregateRoot
 public class Student extends AggregateRoot<StudentId> {
-
-    private final StudentId studentId;
     private final String name;
     private final String grade;
     private final MobileNumber mobileNumber;
     private final String schoolName;
+    private final boolean active;
 }

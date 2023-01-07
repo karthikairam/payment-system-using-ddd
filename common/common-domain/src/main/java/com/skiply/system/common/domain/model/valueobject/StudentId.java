@@ -1,6 +1,6 @@
 package com.skiply.system.common.domain.model.valueobject;
 
-public record StudentId(String value) implements ValueObject{
+public record StudentId(String value) implements ValueObject {
 
     public StudentId(final String value) {
         this.value = validateValue(value);

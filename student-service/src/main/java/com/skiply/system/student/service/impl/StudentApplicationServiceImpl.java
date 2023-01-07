@@ -1,5 +1,6 @@
 package com.skiply.system.student.service.impl;
 
+import com.skiply.system.common.domain.model.valueobject.StudentId;
 import com.skiply.system.student.api.mapper.StudentModelMapper;
 import com.skiply.system.student.api.register.RegisterStudentCommand;
 import com.skiply.system.student.api.register.RegisterStudentResponse;
@@ -27,7 +28,7 @@ public class StudentApplicationServiceImpl implements StudentApplicationService 
         // Save to DB
         final var entity = persistToDB(registerStudentCommand);
         //Prepare response
-        return new RegisterStudentResponse(entity.getStudentId());
+        return new RegisterStudentResponse(new StudentId(entity.getStudentId()));
     }
 
     private StudentEntity persistToDB(RegisterStudentCommand command) {

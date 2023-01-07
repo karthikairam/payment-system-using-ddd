@@ -1,0 +1,2 @@
+ALTER TABLE "student"."students" ADD COLUMN IF NOT EXISTS "active" BOOLEAN NOT NULL DEFAULT TRUE;
+ALTER TABLE "student"."students" ALTER COLUMN "active" DROP DEFAULT;

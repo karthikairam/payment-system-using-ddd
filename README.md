@@ -10,6 +10,7 @@ A student fee payment system.
     - It is only applicable when two or more **AggregateRoots** has to be accessed and orchestrated to execute Domain logic (**DDD** concept).
   - Used **ValueObjects** to embrace domain driven concepts and set a meaningful types (**DDD** concept).
     - ex: `StudentId`, etc
+  - I used `Lombok` annotations in the Domain classes due to time constrain. Usually it will be made up of pure Java code without any dependency from an external libs or frameworks.
 
 # Assumptions
 - Student number will be unique across the schools. So, make it as primary key after the required validations.
