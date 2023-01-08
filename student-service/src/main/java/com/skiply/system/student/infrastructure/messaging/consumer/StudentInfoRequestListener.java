@@ -41,7 +41,7 @@ public class StudentInfoRequestListener implements KafkaConsumer<String, Student
                 return;
             }
             responseStudentInfoEventPublisher.publish(StudentInfoResponseEvent.builder()
-                    .messageKey(key)
+                    .receiptId(message.receiptId())
                     .student(studentEntityMapper.entityToStudentModel(entity.get()))
                     .build());
         } catch (Exception e) {

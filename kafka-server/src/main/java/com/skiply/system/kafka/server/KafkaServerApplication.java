@@ -9,14 +9,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.kafka.core.KafkaAdmin;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.test.EmbeddedKafkaBroker;
 
 import java.util.HashMap;
@@ -28,6 +26,10 @@ public class KafkaServerApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(KafkaServerApplication.class, args);
 	}
+}
+
+@Configuration
+class KafkaServerConfiguration {
 
 	@Value(value = "${spring.kafka.bootstrap-servers}")
 	private String bootstrapAddress;
@@ -56,23 +58,24 @@ public class KafkaServerApplication {
 	}
 
 	@Bean
-	public NewTopic topic1() {
-		return TopicBuilder.name("test-topic-1989").partitions(1).replicas(1).build();
-	}
-
-	@Bean
 	public NewTopic topicPaymentSuccessEvent() {
-		return TopicBuilder.name("payment-success-response").partitions(1).replicas(1).build();
-	}
-
-	@KafkaListener(id = "test-listener", topics = "payment-success-response")
-	public void listen(String in) {
-		log.info("Message Received: {}", in);
+		return createNewTopicWithDefaults("payment-success-response");
 	}
 
 	@Bean
-	public ApplicationRunner runner(KafkaTemplate<String, String> template) {
-		return args -> template.send("test-topic-1989", "Hey, Kafka! Welcome to my localhost.");
+	public NewTopic topicStudentInfoRequest() {
+		return createNewTopicWithDefaults("student-info-request");
 	}
 
+	@Bean
+	public NewTopic topicStudentInfoResponse() {
+		return createNewTopicWithDefaults("student-info-response");
+	}
+
+	private NewTopic createNewTopicWithDefaults(String name) {
+		return TopicBuilder.name(name)
+				.partitions(1)
+				.replicas(1)
+				.build();
+	}
 }

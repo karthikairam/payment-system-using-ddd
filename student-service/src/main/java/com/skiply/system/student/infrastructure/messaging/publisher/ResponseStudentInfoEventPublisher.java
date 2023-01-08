@@ -25,7 +25,7 @@ class KafkaResponseStudentInfoEventPublisher implements ResponseStudentInfoEvent
     @Override
     public void publish(StudentInfoResponseEvent event) {
         try {
-            kafkaProducer.send(topicName, event.messageKey(), prepareMessage(event));
+            kafkaProducer.send(topicName, event.receiptId().toString(), prepareMessage(event));
         } catch (Exception e) {
             log.error("Error while sending StudentInfoResponseMessage message" +
                             " to kafka with student id: {}. Error: {}",
@@ -35,6 +35,7 @@ class KafkaResponseStudentInfoEventPublisher implements ResponseStudentInfoEvent
 
     private StudentInfoResponseMessage prepareMessage(StudentInfoResponseEvent event) {
         return StudentInfoResponseMessage.builder()
+                .receiptId(event.receiptId())
                 .studentId(event.student().getId())
                 .name(event.student().getName())
                 .grade(event.student().getGrade())

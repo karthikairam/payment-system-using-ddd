@@ -1,9 +1,8 @@
 package com.skiply.system.common.messaging.kafka.message.receipt;
 
+import com.skiply.system.common.domain.model.valueobject.ReceiptId;
 import com.skiply.system.common.messaging.kafka.message.KafkaMessage;
 import lombok.Builder;
 
-import java.util.UUID;
-
 @Builder
-public record StudentInfoRequestMessage(UUID receiptId) implements KafkaMessage {}
+public record StudentInfoRequestMessage(ReceiptId receiptId) implements KafkaMessage {}
