@@ -1,9 +1,9 @@
 server:
-  port: 8081
+  port: 8082
 
 spring:
   datasource:
-    url: jdbc:h2:file:./h2-db/skiply-student-db;MODE=PostgreSQL;DATABASE_TO_UPPER=false;DB_CLOSE_DELAY=-1
+    url: jdbc:h2:file:./h2-db/skiply-payment-db;MODE=PostgreSQL;DATABASE_TO_UPPER=false;DB_CLOSE_DELAY=-1
     driverClassName: org.h2.Driver
     username: ${DB_USER:sa}
     password: ${DB_PWD:password}
@@ -11,7 +11,7 @@ spring:
     show-sql: true
     properties:
       hibernate:
-        default_schema: student
+        default_schema: payment
     hibernate:
       ddl-auto: none
     database-platform: org.hibernate.dialect.PostgreSQL95Dialect
@@ -30,7 +30,7 @@ spring:
 
 management:
   server:
-    port: 9091
+    port: 9092
 
 springdoc:
   show-actuator: true

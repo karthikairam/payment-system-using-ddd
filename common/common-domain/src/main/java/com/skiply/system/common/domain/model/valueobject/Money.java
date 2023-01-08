@@ -4,6 +4,11 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 public record Money(BigDecimal value) implements ValueObject {
+
+    public Money(BigDecimal value) {
+        this.value = setScale(value);
+    }
+
     public static final Money ZERO = new Money(BigDecimal.ZERO);
 
     public boolean isGreaterThanZero() {

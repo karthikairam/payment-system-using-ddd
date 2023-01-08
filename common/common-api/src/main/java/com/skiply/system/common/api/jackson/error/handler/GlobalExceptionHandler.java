@@ -127,7 +127,7 @@ public class GlobalExceptionHandler {
         log.error(exception.getMessage(), exception);
         return ErrorDTO.builder()
                 .code(SERVER_ERROR)
-                .messages(List.of(exception.getMessage()))
+                .messages(List.of(INTERNAL_SERVER_ERROR.getReasonPhrase()))
                 .build();
     }
 }

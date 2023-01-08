@@ -20,6 +20,7 @@
         <module>student-service</module>
         <module>payment-service</module>
         <module>receipt-service</module>
+        <module>kafka-server</module>
     </modules>
 
     <properties>

@@ -1,7 +1,9 @@
 package com.skiply.system.payment.infrastructure.persistence.entity;
 
+import com.skiply.system.common.domain.model.valueobject.PaymentReferenceNumber;
 import com.skiply.system.common.domain.model.valueobject.PaymentTransactionStatus;
 import com.skiply.system.common.domain.model.valueobject.StudentId;
+import com.skiply.system.common.persistence.converter.PaymentReferenceNumberRepoConverter;
 import com.skiply.system.common.persistence.converter.StudentIdRepoConverter;
 import lombok.*;
 
@@ -31,7 +33,8 @@ public class PaymentTransactionEntity {
     @Column(name = "paid_by")
     private String paidBy;
     @Column(name = "reference_number")
-    private String referenceNumber;
+    @Convert(converter = PaymentReferenceNumberRepoConverter.class)
+    private PaymentReferenceNumber referenceNumber;
     @Column(name = "card_number")
     private String cardNumber;
     @Column(name = "card_type")

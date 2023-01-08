@@ -40,17 +40,11 @@ class MockPaymentGatewayProvider implements PaymentGatewayProvider {
 
 @Component
 class ReferenceNumberGenerator {
-
-    private final long nodeId = new Random().nextLong();
-    private long counter;
-
-    public ReferenceNumberGenerator() {
-        this.counter = 0;
-    }
+    private final long random = new Random().nextLong(100000, 1000000);
 
     public synchronized String generateReceiptNumber() {
         long timestamp = Instant.now().toEpochMilli();
-        return Long.toString((timestamp << 32) | (nodeId << 16) | counter++);
+        return String.format("%s%s", timestamp, random);
     }
 }
 

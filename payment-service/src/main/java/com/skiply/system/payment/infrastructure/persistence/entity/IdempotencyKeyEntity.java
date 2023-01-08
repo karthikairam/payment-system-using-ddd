@@ -14,7 +14,7 @@ import java.util.Objects;
 @Table(name = "idempotency_keys")
 public class IdempotencyKeyEntity {
     @Id
-    @Column(name = "key", nullable = false)
+    @Column(name = "idempotency_key", nullable = false)
     private String key;
 
     @OneToOne(cascade = CascadeType.ALL)
