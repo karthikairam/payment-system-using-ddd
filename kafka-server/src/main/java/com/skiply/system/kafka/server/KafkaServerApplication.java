@@ -1,5 +1,10 @@
 package com.skiply.system.kafka.server;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;
@@ -35,6 +40,15 @@ public class KafkaServerApplication {
 	}
 
 	@Bean
+	public ObjectMapper objectMapper() {
+		return new ObjectMapper()
+				.registerModule(new Jdk8Module())
+				.registerModule(new JavaTimeModule())
+				.setSerializationInclusion(JsonInclude.Include.NON_NULL)
+				.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+	}
+
+	@Bean
 	public KafkaAdmin kafkaAdmin() {
 		Map<String, Object> configs = new HashMap<>();
 		configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
@@ -51,7 +65,7 @@ public class KafkaServerApplication {
 		return TopicBuilder.name("payment-success-response").partitions(1).replicas(1).build();
 	}
 
-	@KafkaListener(id = "test-topic-1989", topics = "test-topic-1989")
+	@KafkaListener(id = "test-listener", topics = "payment-success-response")
 	public void listen(String in) {
 		log.info("Message Received: {}", in);
 	}

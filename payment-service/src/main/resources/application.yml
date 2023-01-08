@@ -27,6 +27,15 @@ spring:
   flyway:
     schema: PUBLIC
     baseline-on-migrate: true
+  kafka:
+    bootstrap-servers: localhost:10091
+    consumer:
+      auto-offset-reset: earliest
+
+payment-service:
+  publisher:
+    kafka:
+      topic: payment-success-response
 
 management:
   server:

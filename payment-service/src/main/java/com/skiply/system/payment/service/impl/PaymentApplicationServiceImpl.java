@@ -12,6 +12,7 @@ import com.skiply.system.payment.infrastructure.apiclient.PaymentGatewayProvider
 import com.skiply.system.payment.infrastructure.apiclient.dto.PaymentGatewayResponse;
 import com.skiply.system.payment.infrastructure.apiclient.dto.PaymentGatewayStatus;
 import com.skiply.system.payment.infrastructure.apiclient.dto.mapper.PaymentGatewayMapper;
+import com.skiply.system.payment.infrastructure.messaging.publisher.PaymentPublisher;
 import com.skiply.system.payment.infrastructure.persistence.entity.IdempotencyKeyEntity;
 import com.skiply.system.payment.infrastructure.persistence.entity.PaymentTransactionEntity;
 import com.skiply.system.payment.infrastructure.persistence.mapper.PaymentTransactionEntityMapper;
@@ -35,6 +36,7 @@ public class PaymentApplicationServiceImpl implements PaymentApplicationService 
     private final PaymentTransactionMapper paymentTransactionMapper;
     private final PaymentTransactionEntityMapper paymentTransactionEntityMapper;
     private final PaymentGatewayMapper paymentGatewayMapper;
+    private final PaymentPublisher paymentPublisher;
 
     @Override
     @Transactional
@@ -54,18 +56,19 @@ public class PaymentApplicationServiceImpl implements PaymentApplicationService 
                                 .makePayment(paymentGatewayMapper.domainModelToClientRequest(domainModel));
 
                         if(gatewayResponse.status().equals(PaymentGatewayStatus.SUCCESS)) {
-
-                            paymentDomainService.paymentSucceeded(domainModel, gatewayResponse.referenceNumber());
+                            var event = paymentDomainService.
+                                    paymentSucceeded(domainModel, gatewayResponse.referenceNumber());
                             //save the Aggregates to DB
                             paymentTransactionRepository.save(
                                     paymentTransactionEntityMapper.domainModelToEntity(domainModel));
-                            //publish the success event
+                            // publish the success event
                             // TODO If time permits use Outbox pattern to be reliable
+                            paymentPublisher.publish(event);
+
                             return domainModelToResponse(domainModel);
                         } else {
                             log.error("Payment failed in payment gateway. Reason: {}", gatewayResponse.failureReason());
                             // For now, no need to use PaymentFailedEvent, since no interested consumer at the moment
-                            // TODO - Expose if required otherwise just ignore for now.
                             paymentDomainService.paymentFailed(domainModel, gatewayResponse.failureReason());
                             throw new PaymentDomainException(gatewayResponse.failureReason());
                         }
