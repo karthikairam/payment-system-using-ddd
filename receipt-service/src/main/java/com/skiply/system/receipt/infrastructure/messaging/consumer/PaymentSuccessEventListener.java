@@ -2,7 +2,7 @@ package com.skiply.system.receipt.infrastructure.messaging.consumer;
 
 import com.skiply.system.common.messaging.kafka.consumer.KafkaConsumer;
 import com.skiply.system.common.messaging.kafka.message.payment.PaymentSuccessMessage;
-import com.skiply.system.receipt.infrastructure.messaging.publisher.RequestStudentInfoEventPublisher;
+import com.skiply.system.receipt.infrastructure.messaging.publisher.StudentInfoRequestEventPublisher;
 import com.skiply.system.receipt.infrastructure.persistence.repository.ReceiptEntityRepository;
 import com.skiply.system.receipt.service.mapper.ReceiptDataMapper;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ public class PaymentSuccessEventListener implements KafkaConsumer<String, Paymen
 
     private final ReceiptDataMapper dataMapper;
 
-    private final RequestStudentInfoEventPublisher requestStudentInfoEventPublisher;
+    private final StudentInfoRequestEventPublisher studentInfoRequestEventPublisher;
 
     @Override
     @Transactional

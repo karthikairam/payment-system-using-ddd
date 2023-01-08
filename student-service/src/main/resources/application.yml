@@ -27,10 +27,25 @@ spring:
   flyway:
     schema: PUBLIC
     baseline-on-migrate: true
+  kafka:
+    bootstrap-servers: localhost:10091
+    consumer:
+      auto-offset-reset: earliest
+
+student-service:
+  consumer:
+    kafka:
+      consumer-group-id: student-service
+      topic:
+        student-info-request: student-info-request
+  publisher:
+    kafka:
+      topic:
+        student-info-response: student-info-response
 
 management:
   server:
-    port: 8091 # Same port as application port just to avoid CORS issue from swagger
+    port: 8081 # Same port as application port just to avoid CORS issue from swagger
 
 springdoc:
   show-actuator: true

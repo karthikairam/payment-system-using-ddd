@@ -6,7 +6,7 @@ import lombok.Builder;
 import java.util.UUID;
 
 @Builder
-public record RequestStudentInfoEvent(
+public record StudentInfoRequestEvent(
         StudentId studentId,
         UUID receiptId
 ) {}

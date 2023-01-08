@@ -38,7 +38,6 @@ receipt-service:
       consumer-group-id: receipt-service
       topic:
         payment-success-response: payment-success-response
-
   publisher:
     kafka:
         topic:
