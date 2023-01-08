@@ -29,7 +29,7 @@ public class ReceiptDataMapper {
                 .referenceNumber(entity.getReferenceNumber())
                 .cardNumber(entity.getCardNumber())
                 .cardType(entity.getCardType())
-                .datetime(entity.getCreatedAt())
+                .datetime(entity.getTransactionTs())
                 .build();
     }
 
@@ -68,6 +68,7 @@ public class ReceiptDataMapper {
         var receiptEntity = ReceiptEntity.builder()
                 .id(UUID.randomUUID())
                 .createdAt(OffsetDateTime.now())
+                .transactionTs(message.transactionDetail().transactionDateTime())
                 .status(ReceiptStatus.PENDING)
                 .cardNumber(message.transactionDetail().cardNumber())
                 .cardType(message.transactionDetail().cardType())
