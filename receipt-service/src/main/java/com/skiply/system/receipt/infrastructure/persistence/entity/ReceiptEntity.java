@@ -42,6 +42,8 @@ public class ReceiptEntity {
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private ReceiptStatus status;
+
+    // Due to time constraint I haven't moved the student info required for receipt into another table here.
     @Column(name = "student_id")
     @Convert(converter = StudentIdRepoConverter.class)
     private StudentId studentId;
@@ -49,6 +51,7 @@ public class ReceiptEntity {
     private String studentName;
     @Column(name = "student_grade")
     private String studentGrade;
+
     @OneToMany(mappedBy = "receipt", cascade = CascadeType.ALL)
     private List<PurchaseItemEntity> purchaseItems;
 

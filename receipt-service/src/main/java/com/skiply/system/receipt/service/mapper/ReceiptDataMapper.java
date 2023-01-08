@@ -21,6 +21,7 @@ public class ReceiptDataMapper {
                 .transactionDetail(prepareTransactionDetail(entity))
                 .studentInfo(prepareStudentInfo(entity))
                 .purchaseDetail(preparePurchaseDetail(entity.getPurchaseItems()))
+                .receiptStatus(entity.getStatus())
                 .build();
     }
 

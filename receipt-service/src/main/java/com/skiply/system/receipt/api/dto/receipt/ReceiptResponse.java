@@ -3,6 +3,7 @@ package com.skiply.system.receipt.api.dto.receipt;
 import com.skiply.system.common.domain.model.valueobject.Money;
 import com.skiply.system.common.domain.model.valueobject.PaymentReferenceNumber;
 import com.skiply.system.common.domain.model.valueobject.StudentId;
+import com.skiply.system.receipt.domain.model.ReceiptStatus;
 import lombok.Builder;
 
 import java.time.OffsetDateTime;
@@ -13,7 +14,8 @@ public record ReceiptResponse(
    String paidBy,
    StudentInfo studentInfo,
    TransactionDetail transactionDetail,
-   PurchaseDetail purchaseDetail
+   PurchaseDetail purchaseDetail,
+   ReceiptStatus receiptStatus
 ) {
     @Builder
     public record StudentInfo(

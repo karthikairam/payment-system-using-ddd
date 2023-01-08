@@ -2,6 +2,8 @@ package com.skiply.system.receipt.api;
 
 import com.skiply.system.common.domain.model.valueobject.PaymentReferenceNumber;
 import com.skiply.system.receipt.api.dto.receipt.ReceiptResponse;
+import com.skiply.system.receipt.domain.model.ReceiptStatus;
+import com.skiply.system.receipt.domain.model.exception.ReceiptNotFoundDomainException;
 import com.skiply.system.receipt.service.ReceiptApplicationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +25,18 @@ public class ReceiptController {
     public ResponseEntity<ReceiptResponse> retrieve(
             @RequestParam(value = "referenceNumber") PaymentReferenceNumber referenceNumber) {
 
-        return ResponseEntity.ok(service.retrieve(referenceNumber));
+        return service.retrieve(referenceNumber)
+                .map(this::prepareRespectiveResponse)
+                .orElseThrow(() -> new ReceiptNotFoundDomainException("Receipt not found."));
+    }
+
+    private ResponseEntity<ReceiptResponse> prepareRespectiveResponse(ReceiptResponse receiptResponse) {
+        if (receiptResponse.receiptStatus() == ReceiptStatus.COMPLETED) {
+            return ResponseEntity.ok(receiptResponse);
+        } else {
+            /* When the status is PENDING the HTTP status code should be 202.
+               Meaning it is accepted already and in progress as per REST principle */
+            return ResponseEntity.accepted().body(receiptResponse);
+        }
     }
 }

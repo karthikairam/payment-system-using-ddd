@@ -8,8 +8,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 public interface ReceiptApplicationService {
-    ReceiptResponse retrieve(PaymentReferenceNumber referenceNumber);
+    Optional<ReceiptResponse> retrieve(PaymentReferenceNumber referenceNumber);
 }
 
 @Slf4j
@@ -20,11 +22,11 @@ class DefaultReceiptApplicationService implements ReceiptApplicationService {
     private final ReceiptDataMapper receiptDataMapper;
 
     @Override
-    public ReceiptResponse retrieve(final PaymentReferenceNumber referenceNumber) {
+    public Optional<ReceiptResponse> retrieve(final PaymentReferenceNumber referenceNumber) {
         log.info("Request for receipt retrieval received for payment reference number {}", referenceNumber);
-        return receiptDataMapper.entityToResponse(
-                receiptRepository.findByReferenceNumber(referenceNumber)
-        );
+        return Optional.of(referenceNumber)
+                .map(receiptRepository::findByReferenceNumber)
+                .map(receiptDataMapper::entityToResponse);
     }
 
 }
