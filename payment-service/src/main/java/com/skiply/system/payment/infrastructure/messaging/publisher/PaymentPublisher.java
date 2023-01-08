@@ -16,9 +16,9 @@ public interface PaymentPublisher {
 @Slf4j
 @RequiredArgsConstructor
 @Component
-class PaymentKafkaPublisher implements PaymentPublisher {
+class KafkaPaymentPublisher implements PaymentPublisher {
 
-    @Value("${payment-service.publisher.kafka.topic}")
+    @Value("${payment-service.publisher.kafka.topic.payment-success-response}")
     private String topicName;
     private final KafkaProducer<String, PaymentSuccessMessage> kafkaProducer;
     private final PaymentMessageMapper paymentMessageMapper;

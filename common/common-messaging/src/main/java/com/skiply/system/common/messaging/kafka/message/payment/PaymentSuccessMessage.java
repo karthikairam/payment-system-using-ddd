@@ -11,7 +11,7 @@ import java.util.List;
 
 @Builder
 public record PaymentSuccessMessage(
-    String userName,
+    String paidBy,
     StudentId studentId,
     TransactionDetail transactionDetail,
     List<PurchaseItem> purchaseItems
