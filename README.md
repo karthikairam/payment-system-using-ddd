@@ -1,6 +1,18 @@
 # Skiply system
 
-A student management and fee collection system. Consists of 3 micro-services for student, payment & receipt domains and a supporting kafka server.
+### Table of Contents
+- [Introduction](#introduction)
+- [Pre-requisite](#pre-requisite)  
+- [Module anatomy](#module-anatomy)
+- [Local Run](#local-run)
+- [Steps to verify the flow](#steps-to-verify-the-flow)
+- [Design Decisions](#design-decisions)
+- [Assumptions](#assumptions)
+
+## Introduction
+
+A student management and fee collection system. Consists of 3 micro-services for student, payment & receipt domains 
+and a supporting kafka server.
 
 ## Pre-requisite
 

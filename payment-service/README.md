@@ -1,7 +1,17 @@
 # Payment microservice
+
+### Table of Contents
+- [Introduction](#introduction)
+- [Run the application](#run-the-application)
+- [API Documentation](#api-documentation)
+- [Sample request & response](#sample-request--response)
+- [H2 DB Client Web Console](#h2-db-client-web-console)
+
+## Introduction
+
 This service is responsible to collect the payment in skiply system for the school fees.
 
-## To run the application
+## Run the application
  Please refer the parent [README.md](../README.md#local-run) file on how to run the services.
 
 ## API Documentation
