@@ -7,11 +7,9 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.skiply.system.common.domain.model.valueobject.StudentId;
-import org.springframework.format.Formatter;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.Locale;
 
 @Component
 public class StudentIdJsonConverter implements ValueObjectJsonConverter<StudentId> {
@@ -47,21 +45,6 @@ public class StudentIdJsonConverter implements ValueObjectJsonConverter<StudentI
                 } else {
                     jsonGenerator.writeString(studentId.value());
                 }
-            }
-        };
-    }
-
-    @Override
-    public Formatter<StudentId> getTypedFieldFormatter() {
-        return new Formatter<>() {
-            @Override
-            public StudentId parse(String text, Locale locale) {
-                return new StudentId(text.toLowerCase(locale));
-            }
-
-            @Override
-            public String print(StudentId object, Locale locale) {
-                return object.value();
             }
         };
     }

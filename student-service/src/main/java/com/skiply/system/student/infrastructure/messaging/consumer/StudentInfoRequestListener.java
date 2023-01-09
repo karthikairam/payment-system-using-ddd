@@ -34,8 +34,8 @@ public class StudentInfoRequestListener implements KafkaConsumer<String, Student
         log.info("A payment success message is received with key:{}, partition:{} and offset: {}", key, partition,
                 offset);
         try {
-            var entity = repository.findById(key);
-            if(entity.isEmpty() || entity.get().isActive()) {
+            var entity = repository.findByStudentIdAndActive(key, true);
+            if(entity.isEmpty()) {
                 log.warn("Requested student id: {} is either not found or inactive in the system", key);
                 return;
             }

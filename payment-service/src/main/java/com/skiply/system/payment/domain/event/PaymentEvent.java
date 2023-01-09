@@ -2,7 +2,6 @@ package com.skiply.system.payment.domain.event;
 
 import com.skiply.system.common.domain.event.DomainEvent;
 import com.skiply.system.payment.domain.model.PaymentTransaction;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.SuperBuilder;

@@ -7,11 +7,9 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.skiply.system.common.domain.model.valueobject.MobileNumber;
-import org.springframework.format.Formatter;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.Locale;
 
 @Component
 public class MobileNumberJsonConverter implements ValueObjectJsonConverter<MobileNumber> {
@@ -47,21 +45,6 @@ public class MobileNumberJsonConverter implements ValueObjectJsonConverter<Mobil
                 } else {
                     jsonGenerator.writeString(mobileNumber.value());
                 }
-            }
-        };
-    }
-
-    @Override
-    public Formatter<MobileNumber> getTypedFieldFormatter() {
-        return new Formatter<>() {
-            @Override
-            public MobileNumber parse(String text, Locale locale) {
-                return new MobileNumber(text.toLowerCase(locale));
-            }
-
-            @Override
-            public String print(MobileNumber object, Locale locale) {
-                return object.value();
             }
         };
     }

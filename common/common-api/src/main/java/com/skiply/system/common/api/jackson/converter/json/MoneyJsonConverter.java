@@ -7,15 +7,15 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.skiply.system.common.domain.model.valueobject.Money;
-import org.springframework.format.Formatter;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Locale;
+import java.text.DecimalFormat;
 
 @Component
 public class MoneyJsonConverter implements ValueObjectJsonConverter<Money> {
+
+    private final DecimalFormat decimalFormat = new DecimalFormat("#0.##");
 
     @Override
     public JsonDeserializer<Money> getJsonDeserializer() {
@@ -46,23 +46,8 @@ public class MoneyJsonConverter implements ValueObjectJsonConverter<Money> {
                 if (money == null) {
                     jsonGenerator.writeNull();
                 } else {
-                    jsonGenerator.writeNumber(money.value());
+                    jsonGenerator.writeNumber(decimalFormat.format(money.value()));
                 }
-            }
-        };
-    }
-
-    @Override
-    public Formatter<Money> getTypedFieldFormatter() {
-        return new Formatter<>() {
-            @Override
-            public Money parse(String text, Locale locale) {
-                return new Money(new BigDecimal(text));
-            }
-
-            @Override
-            public String print(Money object, Locale locale) {
-                return object.value().toString();
             }
         };
     }
