@@ -32,9 +32,9 @@ public class PaymentTransactionEntity {
     private StudentId studentId;
     @Column(name = "paid_by")
     private String paidBy;
-    @Column(name = "reference_number")
+    @Column(name = "payment_reference_number")
     @Convert(converter = PaymentReferenceNumberRepoConverter.class)
-    private PaymentReferenceNumber referenceNumber;
+    private PaymentReferenceNumber paymentReferenceNumber;
     @Column(name = "card_number")
     private String cardNumber;
     @Column(name = "card_type")

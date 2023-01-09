@@ -10,7 +10,7 @@
     </parent>
 
     <artifactId>receipt-service</artifactId>
-    <description>This microservice provides APIs to display receiptEntity information for given paymentReference number.
+    <description>This microservice provides APIs to display receipt information for given paymentReference number.
         It consumes message from payment-service and requests student-service to capture required information for it.
     </description>
 

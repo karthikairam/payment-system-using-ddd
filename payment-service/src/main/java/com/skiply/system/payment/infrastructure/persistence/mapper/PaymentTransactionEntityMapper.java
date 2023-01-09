@@ -17,7 +17,7 @@ public class PaymentTransactionEntityMapper {
     public PaymentTransactionEntity domainModelToEntity(PaymentTransaction domainModel) {
         var paymentEntity = PaymentTransactionEntity.builder()
                 .id(UUID.randomUUID())
-                .referenceNumber(domainModel.getReferenceNumber())
+                .paymentReferenceNumber(domainModel.getPaymentReferenceNumber())
                 .cardNumber(maskCardNumber(domainModel.getCardDetail().cardNumber()))
                 .cardType(domainModel.getCardDetail().cardType())
                 .paidBy(domainModel.getPaidBy())

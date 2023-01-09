@@ -8,7 +8,7 @@ public record PaymentReferenceNumber(String value) implements ValueObject {
     }
 
     private String validateValue(String value) {
-        if(!value.matches("^\\d{15,30}$")) {
+        if(value == null || !value.matches("^\\d{15,30}$")) {
             throw new DomainValidationException("Invalid paymentReferenceNumber");
         }
         return value;

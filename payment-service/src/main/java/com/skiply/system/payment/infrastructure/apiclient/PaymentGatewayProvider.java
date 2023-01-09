@@ -21,7 +21,7 @@ class MockPaymentGatewayProvider implements PaymentGatewayProvider {
 
     private static final Set<String> supportedCardTypes = Set.of("MC", "VI");
 
-    private final ReferenceNumberGenerator referenceNumberGenerator;
+    private final PaymentReferenceNumberGenerator paymentReferenceNumberGenerator;
 
     @Override
     public PaymentGatewayResponse makePayment(PaymentGatewayRequest request) {
@@ -31,7 +31,7 @@ class MockPaymentGatewayProvider implements PaymentGatewayProvider {
                     .failureReason("CardType " + request.cardType() + "is not supported");
         } else {
             responseBuilder.status(PaymentGatewayStatus.SUCCESS)
-                    .referenceNumber(new PaymentReferenceNumber(referenceNumberGenerator.generateReceiptNumber()));
+                    .paymentReferenceNumber(new PaymentReferenceNumber(paymentReferenceNumberGenerator.generateReceiptNumber()));
         }
 
         return responseBuilder.build();
@@ -39,7 +39,7 @@ class MockPaymentGatewayProvider implements PaymentGatewayProvider {
 }
 
 @Component
-class ReferenceNumberGenerator {
+class PaymentReferenceNumberGenerator {
     private final long random = new Random().nextLong(100000, 1000000);
 
     public synchronized String generateReceiptNumber() {

@@ -5,5 +5,5 @@ import lombok.Builder;
 
 @Builder
 public record PaymentGatewayResponse(PaymentGatewayStatus status, String failureReason,
-                                     PaymentReferenceNumber referenceNumber) {
+                                     PaymentReferenceNumber paymentReferenceNumber) {
 }

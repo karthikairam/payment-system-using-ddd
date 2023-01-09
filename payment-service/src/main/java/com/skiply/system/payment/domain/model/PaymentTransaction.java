@@ -18,7 +18,7 @@ public class PaymentTransaction extends AggregateRoot<PaymentTransactionId> {
     private PaymentTransactionStatus paymentTransactionStatus;
     private StudentId studentId;
     private final String paidBy;
-    private PaymentReferenceNumber referenceNumber;
+    private PaymentReferenceNumber paymentReferenceNumber;
     private final IdempotencyKey idempotencyKey;
     private final CardDetail cardDetail;
     private final Money totalPrice;
@@ -78,11 +78,11 @@ public class PaymentTransaction extends AggregateRoot<PaymentTransactionId> {
         purchaseItems.forEach(purchaseItem -> purchaseItem.initializePurchaseItem(this.id));
     }
 
-    public void pay(PaymentReferenceNumber referenceNumber) {
+    public void pay(PaymentReferenceNumber paymentReferenceNumber) {
         if(this.paymentTransactionStatus != PaymentTransactionStatus.PENDING) {
             throw new PaymentDomainException("PaymentTransaction is not in a valid status");
         }
-        this.referenceNumber = referenceNumber;
+        this.paymentReferenceNumber = paymentReferenceNumber;
         this.paymentTransactionStatus = PaymentTransactionStatus.COMPLETED;
     }
 

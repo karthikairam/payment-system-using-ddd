@@ -10,17 +10,17 @@ CREATE TABLE "receipt"."receipts" (
     "created_at" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
     "transaction_ts" TIMESTAMP WITH TIME ZONE NOT NULL,
     "paid_by" CHARACTER VARYING NOT NULL,
-    "reference_number" CHARACTER VARYING NOT NULL,
+    "payment_reference_number" CHARACTER VARYING NOT NULL,
     "card_number" CHARACTER VARYING NOT NULL,
     "card_type" CHARACTER VARYING NOT NULL,
     "student_id" CHARACTER VARYING NOT NULL,
-    "student_name" CHARACTER VARYING NOT NULL,
-    "student_grade" CHARACTER VARYING NOT NULL,
+    "student_name" CHARACTER VARYING,
+    "student_grade" CHARACTER VARYING,
     "status" receipt_status NOT NULL
 );
 
 DROP TABLE IF EXISTS "receipt"."receipt_purchase_items" CASCADE;
-CREATE TABLE "receipt"."purchase_items" (
+CREATE TABLE "receipt"."receipt_purchase_items" (
     "id" uuid PRIMARY KEY NOT NULL,
     "receipt_id" uuid NOT NULL,
     "fee_type" CHARACTER VARYING NOT NULL,

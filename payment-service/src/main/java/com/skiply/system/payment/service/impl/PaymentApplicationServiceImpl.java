@@ -57,7 +57,7 @@ public class PaymentApplicationServiceImpl implements PaymentApplicationService 
 
                         if(gatewayResponse.status().equals(PaymentGatewayStatus.SUCCESS)) {
                             var event = paymentDomainService.
-                                    paymentSucceeded(domainModel, gatewayResponse.referenceNumber());
+                                    paymentSucceeded(domainModel, gatewayResponse.paymentReferenceNumber());
                             //save the Aggregates to DB
                             paymentTransactionRepository.save(
                                     paymentTransactionEntityMapper.domainModelToEntity(domainModel));
@@ -77,17 +77,17 @@ public class PaymentApplicationServiceImpl implements PaymentApplicationService 
     }
 
     private CollectPaymentResponse domainModelToResponse(PaymentTransaction paymentTransaction) {
-        return toResponse(paymentTransaction.getReferenceNumber(), paymentTransaction.getPaymentTransactionStatus());
+        return toResponse(paymentTransaction.getPaymentReferenceNumber(), paymentTransaction.getPaymentTransactionStatus());
     }
 
     private CollectPaymentResponse entityToResponse(PaymentTransactionEntity entity) {
         log.info("This payment was already processed and payment transaction id is {}", entity.getId());
-        return toResponse(entity.getReferenceNumber(), entity.getStatus());
+        return toResponse(entity.getPaymentReferenceNumber(), entity.getStatus());
     }
 
-    private CollectPaymentResponse toResponse(PaymentReferenceNumber referenceNumber, PaymentTransactionStatus status) {
+    private CollectPaymentResponse toResponse(PaymentReferenceNumber paymentReferenceNumber, PaymentTransactionStatus status) {
         return CollectPaymentResponse.builder()
-                .referenceNumber(referenceNumber)
+                .paymentReferenceNumber(paymentReferenceNumber)
                 .status(status)
                 .build();
     }

@@ -1,7 +1,6 @@
 package com.skiply.system.common.persistence.converter;
 
 import com.skiply.system.common.domain.model.valueobject.PaymentReferenceNumber;
-import com.skiply.system.common.domain.model.valueobject.StudentId;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;

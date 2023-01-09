@@ -1,4 +1,4 @@
-package com.skiply.system.common.api.jackson.converter;
+package com.skiply.system.common.api.jackson.converter.json;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
@@ -6,68 +6,69 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import com.skiply.system.common.domain.model.valueobject.StudentId;
+import com.skiply.system.common.domain.model.valueobject.Money;
 import org.springframework.format.Formatter;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Locale;
 
 @Component
-public class StudentIdJsonConverter implements ValueObjectJsonConverter<StudentId> {
+public class MoneyJsonConverter implements ValueObjectJsonConverter<Money> {
 
     @Override
-    public JsonDeserializer<StudentId> getJsonDeserializer() {
+    public JsonDeserializer<Money> getJsonDeserializer() {
         return new JsonDeserializer<>() {
             @Override
-            public StudentId deserialize(
+            public Money deserialize(
                     JsonParser jsonParser,
                     DeserializationContext deserializationContext) throws IOException {
 
-                final var value = jsonParser.getValueAsString();
+                final var value = jsonParser.getDecimalValue();
                 if (value == null) {
                     return null;
                 }
 
-                return new StudentId(value);
+                return new Money(value);
             }
         };
     }
 
     @Override
-    public JsonSerializer<StudentId> getJsonSerializer() {
+    public JsonSerializer<Money> getJsonSerializer() {
         return new JsonSerializer<>() {
             @Override
             public void serialize(
-                    StudentId studentId,
+                    Money money,
                     JsonGenerator jsonGenerator,
                     SerializerProvider serializerProvider) throws IOException {
-                if (studentId == null) {
+                if (money == null) {
                     jsonGenerator.writeNull();
                 } else {
-                    jsonGenerator.writeString(studentId.value());
+                    jsonGenerator.writeNumber(money.value());
                 }
             }
         };
     }
 
     @Override
-    public Formatter<StudentId> getTypedFieldFormatter() {
+    public Formatter<Money> getTypedFieldFormatter() {
         return new Formatter<>() {
             @Override
-            public StudentId parse(String text, Locale locale) {
-                return new StudentId(text.toLowerCase(locale));
+            public Money parse(String text, Locale locale) {
+                return new Money(new BigDecimal(text));
             }
 
             @Override
-            public String print(StudentId object, Locale locale) {
-                return object.value();
+            public String print(Money object, Locale locale) {
+                return object.value().toString();
             }
         };
     }
 
     @Override
-    public Class<StudentId> getType() {
-        return StudentId.class;
+    public Class<Money> getType() {
+        return Money.class;
     }
 }

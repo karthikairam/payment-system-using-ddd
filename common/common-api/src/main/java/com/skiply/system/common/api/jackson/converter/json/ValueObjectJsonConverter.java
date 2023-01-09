@@ -1,4 +1,4 @@
-package com.skiply.system.common.api.jackson.converter;
+package com.skiply.system.common.api.jackson.converter.json;
 
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonSerializer;

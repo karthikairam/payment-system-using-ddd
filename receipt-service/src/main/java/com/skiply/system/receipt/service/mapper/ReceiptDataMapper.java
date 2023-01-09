@@ -27,7 +27,7 @@ public class ReceiptDataMapper {
 
     private ReceiptResponse.TransactionDetail prepareTransactionDetail(ReceiptEntity entity) {
         return ReceiptResponse.TransactionDetail.builder()
-                .referenceNumber(entity.getReferenceNumber())
+                .paymentReferenceNumber(entity.getPaymentReferenceNumber())
                 .cardNumber(entity.getCardNumber())
                 .cardType(entity.getCardType())
                 .datetime(entity.getTransactionTs())
@@ -75,7 +75,7 @@ public class ReceiptDataMapper {
                 .cardType(message.transactionDetail().cardType())
                 .paidBy(message.paidBy())
                 .purchaseItems(preparePurchaseItemEntities(message.purchaseItems()))
-                .referenceNumber(message.transactionDetail().paymentReferenceNumber())
+                .paymentReferenceNumber(message.transactionDetail().paymentReferenceNumber())
                 .studentId(message.studentId())
                 .build();
 
@@ -90,6 +90,7 @@ public class ReceiptDataMapper {
 
         return purchaseItems.stream()
                 .map(purchaseItem -> PurchaseItemEntity.builder()
+                        .id(UUID.randomUUID())
                         .feeType(purchaseItem.feeType())
                         .itemName(purchaseItem.name())
                         .itemPrice(purchaseItem.price().getAmount())

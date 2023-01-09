@@ -14,7 +14,7 @@ public class PaymentMessageMapper {
     public PaymentSuccessMessage paymentSucceedEventToMessage(PaymentSucceedEvent event) {
         return PaymentSuccessMessage
                 .builder()
-                .userName(event.getPaymentTransaction().getPaidBy())
+                .paidBy(event.getPaymentTransaction().getPaidBy())
                 .studentId(event.getPaymentTransaction().getStudentId())
                 .transactionDetail(prepareTransactionDetail(event.getPaymentTransaction()))
                 .purchaseItems(preparePurchaseItems(event.getPaymentTransaction().getPurchaseItems()))
@@ -38,7 +38,7 @@ public class PaymentMessageMapper {
         return PaymentSuccessMessage.TransactionDetail.builder()
                 .cardNumber(paymentTransaction.getCardDetail().cardNumber()) // TODO mask the card number
                 .cardType(paymentTransaction.getCardDetail().cardType())
-                .paymentReferenceNumber(paymentTransaction.getReferenceNumber())
+                .paymentReferenceNumber(paymentTransaction.getPaymentReferenceNumber())
                 .transactionDateTime(paymentTransaction.getTransactionDateTime())
                 .build();
     }

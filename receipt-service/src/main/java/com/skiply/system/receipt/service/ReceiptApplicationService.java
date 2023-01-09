@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 public interface ReceiptApplicationService {
-    Optional<ReceiptResponse> retrieve(PaymentReferenceNumber referenceNumber);
+    Optional<ReceiptResponse> retrieve(PaymentReferenceNumber paymentReferenceNumber);
 }
 
 @Slf4j
@@ -22,10 +22,10 @@ class DefaultReceiptApplicationService implements ReceiptApplicationService {
     private final ReceiptDataMapper receiptDataMapper;
 
     @Override
-    public Optional<ReceiptResponse> retrieve(final PaymentReferenceNumber referenceNumber) {
-        log.info("Request for receipt retrieval received for payment reference number {}", referenceNumber);
-        return Optional.of(referenceNumber)
-                .map(receiptRepository::findByReferenceNumber)
+    public Optional<ReceiptResponse> retrieve(final PaymentReferenceNumber paymentReferenceNumber) {
+        log.info("Request for receipt retrieval received for payment reference number {}", paymentReferenceNumber);
+        return Optional.of(paymentReferenceNumber)
+                .map(receiptRepository::findByPaymentReferenceNumber)
                 .map(receiptDataMapper::entityToResponse);
     }
 

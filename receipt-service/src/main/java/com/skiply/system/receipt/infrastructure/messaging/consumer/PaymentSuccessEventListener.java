@@ -1,7 +1,9 @@
 package com.skiply.system.receipt.infrastructure.messaging.consumer;
 
+import com.skiply.system.common.domain.model.valueobject.ReceiptId;
 import com.skiply.system.common.messaging.kafka.consumer.KafkaConsumer;
 import com.skiply.system.common.messaging.kafka.message.payment.PaymentSuccessMessage;
+import com.skiply.system.receipt.domain.model.event.StudentInfoRequestEvent;
 import com.skiply.system.receipt.infrastructure.messaging.publisher.StudentInfoRequestEventPublisher;
 import com.skiply.system.receipt.infrastructure.persistence.repository.ReceiptEntityRepository;
 import com.skiply.system.receipt.service.mapper.ReceiptDataMapper;
@@ -27,8 +29,7 @@ public class PaymentSuccessEventListener implements KafkaConsumer<String, Paymen
 
     @Override
     @Transactional
-    @KafkaListener(id = "${receipt-service.consumer.kafka.consumer-group-id}",
-            topics = "${receipt-service.consumer.kafka.topic.payment-success-response}")
+    @KafkaListener(topics = "${receipt-service.consumer.kafka.topic.payment-success-response}")
     public void receive(@Payload PaymentSuccessMessage message,
                         @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) String key,
                         @Header(KafkaHeaders.RECEIVED_PARTITION_ID) Integer partition,
@@ -37,8 +38,10 @@ public class PaymentSuccessEventListener implements KafkaConsumer<String, Paymen
                 offset);
         try {
             var entity = repository.save(dataMapper.messageToEntity(message));
-            // 1. publish request-student-info-topic
-            // 2. Write another listener to listen for student information
+            studentInfoRequestEventPublisher.publish(StudentInfoRequestEvent.builder()
+                    .receiptId(new ReceiptId(entity.getId()))
+                    .studentId(entity.getStudentId())
+                    .build());
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw e;

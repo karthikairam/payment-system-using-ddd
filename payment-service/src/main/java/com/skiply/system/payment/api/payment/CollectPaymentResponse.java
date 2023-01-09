@@ -5,5 +5,5 @@ import com.skiply.system.common.domain.model.valueobject.PaymentTransactionStatu
 import lombok.Builder;
 
 @Builder
-public record CollectPaymentResponse(PaymentReferenceNumber referenceNumber, PaymentTransactionStatus status) {
+public record CollectPaymentResponse(PaymentReferenceNumber paymentReferenceNumber, PaymentTransactionStatus status) {
 }

@@ -26,8 +26,7 @@ public class StudentInfoRequestListener implements KafkaConsumer<String, Student
     private final StudentEntityMapper studentEntityMapper;
 
     @Override
-    @KafkaListener(id = "${student-service.consumer.kafka.consumer-group-id}",
-            topics = "${student-service.consumer.kafka.topic.student-info-request}")
+    @KafkaListener(topics = "${student-service.consumer.kafka.topic.student-info-request}")
     public void receive(@Payload StudentInfoRequestMessage message,
                         @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) String key,
                         @Header(KafkaHeaders.RECEIVED_PARTITION_ID) Integer partition,

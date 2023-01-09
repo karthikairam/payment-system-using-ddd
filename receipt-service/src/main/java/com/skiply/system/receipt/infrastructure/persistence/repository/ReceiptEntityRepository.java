@@ -13,14 +13,14 @@ import java.util.UUID;
 
 @Repository
 public interface ReceiptEntityRepository extends JpaRepository<ReceiptEntity, UUID> {
-    ReceiptEntity findByReferenceNumber(PaymentReferenceNumber referenceNumber);
+    ReceiptEntity findByPaymentReferenceNumber(PaymentReferenceNumber paymentReferenceNumber);
 
     @Modifying
     @Query("""
             update ReceiptEntity u
                 set
-                    u.student_name = :studentName
-                    u.student_grade = :studentGrade
+                    u.studentName = :studentName,
+                    u.studentGrade = :studentGrade,
                     u.status = :receiptStatus
                 where u.id = :id
             """)

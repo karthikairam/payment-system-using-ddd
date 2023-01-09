@@ -26,7 +26,7 @@ public record ReceiptResponse(
 
     @Builder
     public record TransactionDetail(
-            PaymentReferenceNumber referenceNumber,
+            PaymentReferenceNumber paymentReferenceNumber,
             OffsetDateTime datetime,
             String cardNumber,
             String cardType

@@ -12,7 +12,7 @@ import java.time.OffsetDateTime;
 public interface PaymentDomainService {
     void validateAndInitializePayment(PaymentTransaction paymentTransaction);
 
-    PaymentSucceedEvent paymentSucceeded(PaymentTransaction paymentTransaction, PaymentReferenceNumber referenceNumber);
+    PaymentSucceedEvent paymentSucceeded(PaymentTransaction paymentTransaction, PaymentReferenceNumber paymentReferenceNumber);
 
     PaymentFailedEvent paymentFailed(PaymentTransaction paymentTransaction, String reason);
 }
@@ -33,9 +33,9 @@ class PaymentDomainServiceImpl implements PaymentDomainService {
 
     @Override
     public PaymentSucceedEvent paymentSucceeded(final PaymentTransaction paymentTransaction,
-                                                final PaymentReferenceNumber referenceNumber) {
+                                                final PaymentReferenceNumber paymentReferenceNumber) {
         log.info("PaymentTransaction with id: {} is successful.", paymentTransaction.getId().value());
-        paymentTransaction.pay(referenceNumber);
+        paymentTransaction.pay(paymentReferenceNumber);
         return PaymentSucceedEvent.builder()
                 .paymentTransaction(paymentTransaction)
                 .createdAt(OffsetDateTime.now())

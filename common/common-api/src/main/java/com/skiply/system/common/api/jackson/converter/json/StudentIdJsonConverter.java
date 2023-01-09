@@ -1,4 +1,4 @@
-package com.skiply.system.common.api.jackson.converter;
+package com.skiply.system.common.api.jackson.converter.json;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
@@ -6,22 +6,21 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import com.skiply.system.common.domain.model.valueobject.ReceiptId;
+import com.skiply.system.common.domain.model.valueobject.StudentId;
 import org.springframework.format.Formatter;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.Locale;
-import java.util.UUID;
 
 @Component
-public class ReceiptIdJsonConverter implements ValueObjectJsonConverter<ReceiptId> {
+public class StudentIdJsonConverter implements ValueObjectJsonConverter<StudentId> {
 
     @Override
-    public JsonDeserializer<ReceiptId> getJsonDeserializer() {
+    public JsonDeserializer<StudentId> getJsonDeserializer() {
         return new JsonDeserializer<>() {
             @Override
-            public ReceiptId deserialize(
+            public StudentId deserialize(
                     JsonParser jsonParser,
                     DeserializationContext deserializationContext) throws IOException {
 
@@ -30,45 +29,45 @@ public class ReceiptIdJsonConverter implements ValueObjectJsonConverter<ReceiptI
                     return null;
                 }
 
-                return new ReceiptId(UUID.fromString(value));
+                return new StudentId(value);
             }
         };
     }
 
     @Override
-    public JsonSerializer<ReceiptId> getJsonSerializer() {
+    public JsonSerializer<StudentId> getJsonSerializer() {
         return new JsonSerializer<>() {
             @Override
             public void serialize(
-                    ReceiptId receiptId,
+                    StudentId studentId,
                     JsonGenerator jsonGenerator,
                     SerializerProvider serializerProvider) throws IOException {
-                if (receiptId == null) {
+                if (studentId == null) {
                     jsonGenerator.writeNull();
                 } else {
-                    jsonGenerator.writeString(receiptId.value().toString());
+                    jsonGenerator.writeString(studentId.value());
                 }
             }
         };
     }
 
     @Override
-    public Formatter<ReceiptId> getTypedFieldFormatter() {
+    public Formatter<StudentId> getTypedFieldFormatter() {
         return new Formatter<>() {
             @Override
-            public ReceiptId parse(String text, Locale locale) {
-                return new ReceiptId(UUID.fromString(text));
+            public StudentId parse(String text, Locale locale) {
+                return new StudentId(text.toLowerCase(locale));
             }
 
             @Override
-            public String print(ReceiptId object, Locale locale) {
-                return object.value().toString();
+            public String print(StudentId object, Locale locale) {
+                return object.value();
             }
         };
     }
 
     @Override
-    public Class<ReceiptId> getType() {
-        return ReceiptId.class;
+    public Class<StudentId> getType() {
+        return StudentId.class;
     }
 }

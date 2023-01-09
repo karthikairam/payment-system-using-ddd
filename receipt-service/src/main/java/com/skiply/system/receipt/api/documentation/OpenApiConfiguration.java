@@ -1,4 +1,4 @@
-package com.skiply.system.receiptEntity.api.documentation;
+package com.skiply.system.receipt.api.documentation;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Contact;
@@ -8,9 +8,9 @@ import io.swagger.v3.oas.annotations.servers.Server;
 
 @OpenAPIDefinition(
         info = @Info(
-                title = "Skiply system's retrieve receiptEntity service - OpenAPI 3.0 documentation",
+                title = "Skiply system's retrieve receipt service - OpenAPI 3.0 documentation",
                 description = """
-                        Exposes APIs to retrieve receiptEntity details to generate receipts for the fee paid for a student in
+                        Exposes APIs to retrieve receipt details to generate receipts for the fee paid for a student in
                         the Skiply system.
                         """,
                 contact = @Contact(
@@ -21,7 +21,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
                 license = @License(
                         name = "MIT Licence",
                         url = "")),
-        servers = @Server(url = "http://localhost:8081")
+        servers = @Server(url = "http://localhost:8083")
 )
 public class OpenApiConfiguration {
 }

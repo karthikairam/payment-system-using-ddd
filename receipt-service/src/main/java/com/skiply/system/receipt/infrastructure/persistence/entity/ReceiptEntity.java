@@ -32,9 +32,9 @@ public class ReceiptEntity {
 
     @Column(name = "paid_by")
     private String paidBy;
-    @Column(name = "reference_number")
+    @Column(name = "payment_reference_number")
     @Convert(converter = PaymentReferenceNumberRepoConverter.class)
-    private PaymentReferenceNumber referenceNumber;
+    private PaymentReferenceNumber paymentReferenceNumber;
     @Column(name = "card_number")
     private String cardNumber;
     @Column(name = "card_type")
@@ -52,7 +52,7 @@ public class ReceiptEntity {
     @Column(name = "student_grade")
     private String studentGrade;
 
-    @OneToMany(mappedBy = "receipt", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "receipt", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<PurchaseItemEntity> purchaseItems;
 
     @Override
