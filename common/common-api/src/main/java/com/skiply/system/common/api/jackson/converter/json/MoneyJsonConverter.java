@@ -10,7 +10,6 @@ import com.skiply.system.common.domain.model.valueobject.Money;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.text.DecimalFormat;
 
 @Component
 public class MoneyJsonConverter implements ValueObjectJsonConverter<Money> {

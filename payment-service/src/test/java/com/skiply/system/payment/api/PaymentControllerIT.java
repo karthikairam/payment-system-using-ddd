@@ -9,7 +9,6 @@ import com.skiply.system.payment.TestKafkaServerConfiguration;
 import com.skiply.system.payment.api.payment.CollectPaymentResponse;
 import com.skiply.system.payment.infrastructure.persistence.repository.PaymentTransactionRepository;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

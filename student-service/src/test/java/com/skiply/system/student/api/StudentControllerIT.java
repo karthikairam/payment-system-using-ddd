@@ -5,7 +5,6 @@ import com.skiply.system.common.domain.model.valueobject.MobileNumber;
 import com.skiply.system.common.domain.model.valueobject.StudentId;
 import com.skiply.system.student.api.register.RegisterStudentCommand;
 import com.skiply.system.student.infrastructure.persistence.repository.StudentRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

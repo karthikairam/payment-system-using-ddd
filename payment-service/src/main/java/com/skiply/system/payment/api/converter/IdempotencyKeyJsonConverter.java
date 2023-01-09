@@ -8,11 +8,9 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.skiply.system.common.api.jackson.converter.json.ValueObjectJsonConverter;
 import com.skiply.system.payment.domain.model.IdempotencyKey;
-import org.springframework.format.Formatter;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.Locale;
 
 @Component
 public class IdempotencyKeyJsonConverter implements ValueObjectJsonConverter<IdempotencyKey> {
