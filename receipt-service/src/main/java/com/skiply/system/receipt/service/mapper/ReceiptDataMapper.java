@@ -35,10 +35,6 @@ public class ReceiptDataMapper {
     }
 
     private ReceiptResponse.StudentInfo prepareStudentInfo(ReceiptEntity entity) {
-        if(entity.getStatus() == ReceiptStatus.PENDING) {
-            return null;
-        }
-
         return ReceiptResponse.StudentInfo.builder()
                 .studentId(entity.getStudentId())
                 .name(entity.getStudentName())
