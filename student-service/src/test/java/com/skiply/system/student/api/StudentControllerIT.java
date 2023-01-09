@@ -16,6 +16,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -60,11 +61,11 @@ class StudentControllerIT {
 
         var entity = repository.findById(request.studentId().value());
         entity.ifPresentOrElse(studentEntity -> {
-            Assertions.assertThat(studentEntity.getStudentId()).isEqualTo(request.studentId().value());
-            Assertions.assertThat(studentEntity.getStudentName()).isEqualTo(request.studentName());
-            Assertions.assertThat(studentEntity.getSchoolName()).isEqualTo(request.schoolName());
-            Assertions.assertThat(studentEntity.getMobileNumber()).isEqualTo(request.mobileNumber());
-            Assertions.assertThat(studentEntity.isActive()).isTrue();
+            assertThat(studentEntity.getStudentId()).isEqualTo(request.studentId().value());
+            assertThat(studentEntity.getStudentName()).isEqualTo(request.studentName());
+            assertThat(studentEntity.getSchoolName()).isEqualTo(request.schoolName());
+            assertThat(studentEntity.getMobileNumber()).isEqualTo(request.mobileNumber());
+            assertThat(studentEntity.isActive()).isTrue();
         }, () -> Assertions.fail("Entity has not saved."));
     }
 
@@ -99,7 +100,7 @@ class StudentControllerIT {
         ;
 
         var entity = repository.findById(request.studentId().value());
-        Assertions.assertThat(entity.isPresent()).isTrue();
+        assertThat(entity.isPresent()).isTrue();
     }
 
 
@@ -124,7 +125,7 @@ class StudentControllerIT {
         ;
 
         var entity = repository.findById(request.studentId().value());
-        Assertions.assertThat(entity.isPresent()).isFalse();
+        assertThat(entity.isPresent()).isFalse();
     }
 
 }
