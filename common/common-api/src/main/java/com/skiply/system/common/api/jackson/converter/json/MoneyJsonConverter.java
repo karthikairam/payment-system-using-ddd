@@ -15,8 +15,6 @@ import java.text.DecimalFormat;
 @Component
 public class MoneyJsonConverter implements ValueObjectJsonConverter<Money> {
 
-    private final DecimalFormat decimalFormat = new DecimalFormat("#0.##");
-
     @Override
     public JsonDeserializer<Money> getJsonDeserializer() {
         return new JsonDeserializer<>() {
@@ -46,7 +44,7 @@ public class MoneyJsonConverter implements ValueObjectJsonConverter<Money> {
                 if (money == null) {
                     jsonGenerator.writeNull();
                 } else {
-                    jsonGenerator.writeNumber(decimalFormat.format(money.value()));
+                    jsonGenerator.writeNumber(money.value());
                 }
             }
         };
