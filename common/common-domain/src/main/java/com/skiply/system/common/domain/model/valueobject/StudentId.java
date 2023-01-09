@@ -11,7 +11,7 @@ public record StudentId(String value) implements ValueObject {
     private String validateValue(final String value) {
         if (value == null
                 || value.length() > 20
-                || !value.matches("^[a-zA-Z0-9]*$")) {
+                || !value.matches("^[a-zA-Z0-9]+$")) {
             throw new DomainValidationException("Invalid StudentId");
         }
         return value;

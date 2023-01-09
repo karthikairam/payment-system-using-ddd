@@ -1,6 +1,8 @@
 package com.skiply.system.payment.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.skiply.system.common.api.jackson.error.dto.ErrorDTO;
+import com.skiply.system.common.api.jackson.error.handler.GlobalExceptionHandler;
 import com.skiply.system.common.domain.model.valueobject.PaymentTransactionStatus;
 import com.skiply.system.common.messaging.kafka.message.payment.PaymentSuccessMessage;
 import com.skiply.system.payment.TestKafkaServerConfiguration;
@@ -33,6 +35,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -79,7 +82,7 @@ class PaymentControllerIT {
 
     @Test
     @Transactional
-    void givenValidPaymentRequest() throws Exception {
+    void givenValidPaymentRequestThenSystemResponseWithSuccess() throws Exception {
         var result = mockMvc.perform(post("/v1/payments")
                         .contentType("application/json")
                         .accept("application/json")
@@ -120,7 +123,7 @@ class PaymentControllerIT {
             assertThat(transactionEntity.getStatus()).isEqualTo(PaymentTransactionStatus.COMPLETED);
             assertThat(transactionEntity.getPurchaseItems()).isNotEmpty();
             assertThat(transactionEntity.getIdempotencyKey()).isNotNull();
-        }, () -> Assertions.fail("Entity has not saved."));
+        }, () -> fail("Entity has not saved."));
 
         Thread.sleep(1000);
 
@@ -131,5 +134,47 @@ class PaymentControllerIT {
         assertThat(record.value().studentId()).isEqualTo(entity.get().getStudentId());
         assertThat(record.value().transactionDetail().paymentReferenceNumber())
                 .isEqualTo(entity.get().getPaymentReferenceNumber());
+    }
+
+    @Test
+    void givenBadPaymentRequestThenSystemResponseWithError() throws Exception {
+        var result = mockMvc.perform(post("/v1/payments")
+                        .contentType("application/json")
+                        .accept("application/json")
+                        .content("""
+                                {
+                                        "studentId": "",
+                                        "paidBy": "Karthik",
+                                        "idempotencyKey": "20220102123520210",
+                                        "cardDetail": {
+                                                "cardNumber": "54021928179322",
+                                                "cardType": "MC",
+                                                "cardCvv": "9465",
+                                                "cardExpiry": "01/31"
+                                        },
+                                        "totalPrice": 150,
+                                        "purchaseItems": [
+                                                {
+                                                        "feeType": "Tuition",
+                                                        "name": "KG2",
+                                                        "quantity": 3,
+                                                        "price": 50
+                                                }
+                                        ]
+                                }
+                                """)
+                )
+                .andExpect(status().isBadRequest())
+                .andReturn();
+
+        var response = objectMapper.readValue(result.getResponse().getContentAsString(), ErrorDTO.class);
+        assertThat(response.code()).isEqualTo(GlobalExceptionHandler.CLIENT_ERROR);
+        assertThat(response.messages()).contains("studentId: Invalid StudentId");
+
+        var entities = repository.findAll();
+        assertThat(entities.size()).isZero();
+
+        Thread.sleep(500);
+        assertThat(queue.size()).isZero();
     }
 }

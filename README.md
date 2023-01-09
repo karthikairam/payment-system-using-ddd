@@ -70,7 +70,8 @@ described below.
 
 
 ## Design Decisions
-- To aggregate data from multiple service, the approach I took is to apply CQRS pattern. 
+- To aggregate data from multiple service, the approach I took here is 
+[CQRS pattern](https://microservices.io/patterns/data/cqrs.html). 
   - For instance, `receipt-service` needs data from `student-service` & `payment-service`. The flow is,
     - `payment-service` emits an event to `kafka` with required information once payment is collected successfully.
     - `receipt-service` then consumes it and load the data in a format it needs (since the payment data is immutable 
@@ -78,7 +79,8 @@ described below.
     - Once payment related information is persisted in the `receipt-service`'s local DB, then it will request for 
     the student info. It is achieved by request-response event model using `kafka`.
     - Both payment & student information required for receipt will be stored locally in an expected format.
-  
+- Due to time constraint I haven't used the 
+[Outbox pattern](https://microservices.io/patterns/data/transactional-outbox.html) before publishing the events.
 - Used `@RequiredArgsConstructor` for constructor injection
 - Two type of service classes may have been used in some parts of service to comply with **DDD** approach 
   - `**ApplicationService` class - to execute application level business logics (aka `UseCase` classes)
