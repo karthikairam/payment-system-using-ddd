@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
@@ -22,14 +21,6 @@ import java.util.List;
 public class WebMvcConfig implements WebMvcConfigurer {
 
     private final List<ValueObjectJsonConverter<?>> valueObjectJsonConverters;
-
-    @Override
-    public void addFormatters(FormatterRegistry registry) {
-        for (ValueObjectJsonConverter<?> provider : valueObjectJsonConverters) {
-            log.info("Add custom formatter for field type '{}'", provider.getType());
-            registry.addFormatterForFieldType(provider.getType(), provider.getTypedFieldFormatter());
-        }
-    }
 
     @Bean
     public ObjectMapper objectMapper() {
