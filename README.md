@@ -45,109 +45,17 @@ described below.
 ## Steps to verify the flow
 
 - **Step 1**: Register a student using student-service's post endpoint (Assumption: Student Id has to be provided to register).
-   - Request
-     
-     URL `POST  http://localhost:8081/v1/students`
+  - Go to [student-service's README.md](./student-service/README.md)
 
-     Header
-     ```
-        accept: application/json
-        Content-Type: application/json
-     ```
-  
-     ```json
-       {
-           "studentId": "98989899",
-           "studentName": "FirstName MiddleName LastName",
-           "grade": "Grade 1",
-           "mobileNumber": "+971555555555",
-           "schoolName": "School Name"
-       }
-       ```
-   
-       - Response: `201` success response.
-        ```json
-          {
-             "studentId": "98989899"
-          }
-        ```
+
 - **Step 2**: Make a payment for the registered student-id. Again you should get `201` and a `paymentReferenceNumber` as a response.
   Note: `IdempotencyKey` has to be unique for each transaction to maintain the idempotency of the payment request.
-  - Request:
-  
-     URL: `POST  http://localhost:8082/v1/payments`
-  
-     Headers:
-     ```
-    accept: application/json
-    Content-Type: application/json
-    ```
+  - Go to [payment-service's README.md](./payment-service/README.md)
 
-     ```json
-     {
-        "studentId": "98989899",
-        "paidBy": "Karthik",
-        "idempotencyKey": "20220102123520210",
-        "cardDetail": {
-                "cardNumber": "54021928179322",
-                "cardType": "MC",
-                "cardCvv": "9465",
-                "cardExpiry": "01/31"
-        },
-        "totalPrice": 151.5,
-        "purchaseItems": [
-                {
-                        "feeType": "Tuition",
-                        "name": "Grade 1",
-                        "quantity": 3,
-                        "price": 50.5
-                }
-        ]
-     }
-     ```
-  - Response: `201` Success response
-      ```json
-      {
-          "paymentReferenceNumber": "1673232016382360789",
-          "status": "COMPLETED"
-      }
-      ```
 
-- **Step 3**: Retrieve the receipt using `paymentReferenceNumber` 
-  - Request
- 
-     URL `GET http://localhost:8083/v1/receipts?paymentReferenceNumber=1673232016382360789`
- 
-  - Response `200` Success  (or) `202` Accepted when the status is in `pending`.
-   
-       ```json
-       {
-             "paidBy": "Karthik",
-             "studentInfo": {
-                     "studentId": "98989899",
-                     "name": "FirstName MiddleName LastName",
-                     "grade": "Grade 1"
-             },
-             "transactionDetail": {
-                     "paymentReferenceNumber": "1673232016382360789",
-                     "datetime": "2023-01-09T06:40:16.369882+04:00",
-                     "cardNumber": "54021928179322",
-                     "cardType": "MC"
-             },
-             "purchaseDetail": {
-                     "totalPrice": 151.5,
-                     "purchaseItems": [
-                             {
-                                     "type": "Tuition",
-                                     "name": "Grade 1",
-                                     "quantity": 3,
-                                     "price": 50.5
-                             }
-                     ]
-             },
-             "receiptStatus": "COMPLETED"
-       }
-       ```
+- **Step 3**: Retrieve the receipt using `paymentReferenceNumber`
+  - Go to [receipt-service's README.md](./receipt-service/README.md)
+
 
 ## Design Decisions
 - To aggregate data from multiple service, the approach I took is to apply CQRS pattern. 
@@ -160,8 +68,8 @@ described below.
     - Both payment & student information required for receipt will be stored locally in an expected format.
   
 - Used `@RequiredArgsConstructor` for constructor injection
-- Two type of service classes might be used here as part of **DDD** approach 
-  - `**ApplicationService` class - to execute application level business logics
+- Two type of service classes may have been used in some parts of service to comply with **DDD** approach 
+  - `**ApplicationService` class - to execute application level business logics (aka `UseCase` classes)
   - `**DomainService` class - to execute Domain business logics.
     - **Optional** if only one **AggregateRoot** is involved. Ex: `student-service`. 
     - It is only applicable when two or more **AggregateRoots** has to be accessed and orchestrated to execute 
