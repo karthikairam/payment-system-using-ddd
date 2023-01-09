@@ -56,7 +56,7 @@ public class ReceiptDataMapper {
                         .build())
                 .toList();
         var totalPrice = items.stream()
-                .map(ReceiptResponse.PurchaseDetail.PurchaseItem::price)
+                .map(purchaseItem -> purchaseItem.price().multiply(purchaseItem.quantity()))
                 .reduce(Money.ZERO, Money::add);
 
         return ReceiptResponse.PurchaseDetail.builder()
