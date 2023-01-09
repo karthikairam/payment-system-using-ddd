@@ -53,21 +53,6 @@ public class IdempotencyKeyJsonConverter implements ValueObjectJsonConverter<Ide
     }
 
     @Override
-    public Formatter<IdempotencyKey> getTypedFieldFormatter() {
-        return new Formatter<>() {
-            @Override
-            public IdempotencyKey parse(String text, Locale locale) {
-                return new IdempotencyKey(text.toLowerCase(locale));
-            }
-
-            @Override
-            public String print(IdempotencyKey object, Locale locale) {
-                return object.value();
-            }
-        };
-    }
-
-    @Override
     public Class<IdempotencyKey> getType() {
         return IdempotencyKey.class;
     }
