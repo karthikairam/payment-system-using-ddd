@@ -2,9 +2,9 @@
 This service is responsible for registering student with skiply system and maintains it.
 
 ## To run the application
- Please refer the parent [README.md](../README.md) file on how to run the services.
+ Please refer the parent [README.md](../README.md#local-run) file on how to run the services.
 
-## API Documentation for student service
+## API Documentation
 Note: Make sure application is running.
  - Refer: [api-docs](http://localhost:8081/v3/api-docs) for Open API Specification 3.0
  - To access Swagger UI [click here](http://localhost:8081/swagger-ui/index.html)

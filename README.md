@@ -45,16 +45,16 @@ described below.
 ## Steps to verify the flow
 
 - **Step 1**: Register a student using student-service's post endpoint (Assumption: Student Id has to be provided to register).
-  - Go to [student-service's README.md](./student-service/README.md)
+  - Go to [student-service's README.md](./student-service/README.md#api-documentation)
 
 
 - **Step 2**: Make a payment for the registered student-id. Again you should get `201` and a `paymentReferenceNumber` as a response.
   Note: `IdempotencyKey` has to be unique for each transaction to maintain the idempotency of the payment request.
-  - Go to [payment-service's README.md](./payment-service/README.md)
+  - Go to [payment-service's README.md](./payment-service/README.md#api-documentation)
 
 
 - **Step 3**: Retrieve the receipt using `paymentReferenceNumber`
-  - Go to [receipt-service's README.md](./receipt-service/README.md)
+  - Go to [receipt-service's README.md](./receipt-service/README.md#api-documentation)
 
 
 ## Design Decisions

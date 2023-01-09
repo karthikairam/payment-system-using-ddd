@@ -2,9 +2,9 @@
 This service is responsible fetch the receipts of the payment collected in skiply system.
 
 ## To run the application
- Please refer the parent [README.md](../README.md) file on how to run the services.
+ Please refer the parent [README.md](../README.md#local-run) file on how to run the services.
 
-## API Documentation for receipt service
+## API Documentation
 Note: Make sure application is running.
  - Refer: [api-docs](http://localhost:8083/v3/api-docs) for Open API Specification 3.0
  - To access Swagger UI [click here](http://localhost:8083/swagger-ui/index.html)
