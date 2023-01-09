@@ -4,10 +4,12 @@ package com.skiply.system.student.api.register;
 import com.skiply.system.common.domain.model.valueobject.MobileNumber;
 import com.skiply.system.common.domain.model.valueobject.StudentId;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+@Builder
 public record RegisterStudentCommand(@Schema(type = "string", defaultValue = "9898989")
                                      StudentId studentId, // Value object is validated
                                      @NotBlank @Size(max = 100)
