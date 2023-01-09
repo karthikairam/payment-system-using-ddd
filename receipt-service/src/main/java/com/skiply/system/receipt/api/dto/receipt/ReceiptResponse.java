@@ -21,7 +21,7 @@ public record ReceiptResponse(
     public record StudentInfo(
             StudentId studentId,
             String name,
-            String Grade
+            String grade
     ) {}
 
     @Builder
