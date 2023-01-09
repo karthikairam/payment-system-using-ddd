@@ -36,7 +36,7 @@ Steps to locally run the required applications,
     
 
   - (Optional) Now, you may compound these runs into single unit as shown below,
-    ![JaCoCo_Report img missing](https://github.com/karthikaiselvan/skiply-system/blob/main/docs/img/img.jpg?raw=true)
+    ![Compound Run](https://github.com/karthikairam/skiply-system/blob/main/docs/img/img.png?raw=true)
 
   - Once all the services are up & running, then go to each service specific Swagger UI to execute the flows described below.
 
