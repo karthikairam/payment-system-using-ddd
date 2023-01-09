@@ -122,7 +122,7 @@ Steps to locally run the required applications,
                  "studentInfo": {
                          "studentId": "98989899",
                          "name": "FirstName MiddleName LastName",
-                         "Grade": "Grade 1"
+                         "grade": "Grade 1"
                  },
                  "transactionDetail": {
                          "paymentReferenceNumber": "1673232016382360789",
