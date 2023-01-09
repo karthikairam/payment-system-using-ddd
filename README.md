@@ -38,7 +38,7 @@ Steps to locally run the required applications,
   - (Optional) Now, you may compound these runs into single unit as shown below,
     ![Compound Run](https://github.com/karthikairam/skiply-system/blob/main/docs/img/img.png?raw=true)
 
-  - Once all the services are up & running, then go to each service specific Swagger UI to execute the flows described below.
+  - Once all the services are up & running, then go to each service specific Swagger UI to execute the flows as described below.
 
     - Step 1: Register a student using student-service's post endpoint (Assumption: Student Id has to be provided to register).
        - Request

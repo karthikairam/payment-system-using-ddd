@@ -17,7 +17,7 @@ public record CollectPaymentCommand(
         String paidBy,
         @Schema(type = "string",
                 defaultValue = "20220102123520234",
-                description = "To maintain idempotency while submitting the payment",
+                description = "To maintain the idempotency while submitting the payment",
                 maxLength = 20,
                 minLength = 10
         )

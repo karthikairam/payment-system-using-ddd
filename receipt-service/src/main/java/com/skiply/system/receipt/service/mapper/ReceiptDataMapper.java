@@ -38,7 +38,7 @@ public class ReceiptDataMapper {
         return ReceiptResponse.StudentInfo.builder()
                 .studentId(entity.getStudentId())
                 .name(entity.getStudentName())
-                .Grade(entity.getStudentGrade())
+                .grade(entity.getStudentGrade())
                 .build();
     }
 
