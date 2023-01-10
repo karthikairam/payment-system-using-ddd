@@ -71,7 +71,7 @@ described below.
 
 ## Sequence Diagram
 
-```mermaid
+```mermaid 
 sequenceDiagram
     participant api-consumer
     participant student-service
