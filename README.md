@@ -43,11 +43,14 @@ Please make sure your machine has the following things installed,
 Steps to locally run the required applications,
   - Please run the below services,
     - Using maven wrapper (maven wrapper doesn't need maven installation locally)
-      Note: run each of these in separate terminals,
-      - `./mvnw clean spring-boot:run --file ./kafka-server/pom.xml`  - recommended to start this first
-      - `./mvnw clean spring-boot:run --file ./student-service/pom.xml`
-      - `./mvnw clean spring-boot:run --file ./payment-service/pom.xml`
-      - `./mvnw clean spring-boot:run --file ./receipt-service/pom.xml`
+      - Step 1: Open `terminal` and move to the `skiply-system` directory
+        - `cd {your-location}/skiply-system` 
+
+      - Step 2: Run each of the below commands on a separate terminal,
+        - `./mvnw clean spring-boot:run --file ./kafka-server/pom.xml`  - recommended to start this first
+        - `./mvnw clean spring-boot:run --file ./student-service/pom.xml`
+        - `./mvnw clean spring-boot:run --file ./payment-service/pom.xml`
+        - `./mvnw clean spring-boot:run --file ./receipt-service/pom.xml`
 
        **(or)**
 
@@ -108,3 +111,7 @@ described below.
   - Otherwise, we need to maintain internal student id with in our system to make it unique.
 - Payment service doesn't validate the student Id is a registered one before making payment. It was clarified 
 before doing this assignment.
+
+## In-progress items
+- Unit testing
+- Few Integration tests
