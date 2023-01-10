@@ -1,3 +1,5 @@
 spring:
   datasource:
     url: jdbc:h2:mem:skiply-student-db;MODE=PostgreSQL;DATABASE_TO_UPPER=false;DB_CLOSE_DELAY=-1
+  kafka:
+    bootstrap-servers: localhost:10092

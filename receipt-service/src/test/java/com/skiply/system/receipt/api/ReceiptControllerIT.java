@@ -162,7 +162,9 @@ class ReceiptControllerIT {
                 .until(call);
     }
 
-    private void fireGetReceiptApi(PaymentReferenceNumber paymentReferenceNumber, ResultMatcher Accepted, StudentId studentId, ReceiptStatus expectedStatus) throws Exception {
+    private void fireGetReceiptApi(PaymentReferenceNumber paymentReferenceNumber,
+                                   ResultMatcher Accepted, StudentId studentId,
+                                   ReceiptStatus expectedStatus) throws Exception {
         mockMvc.perform(get("/v1/receipts?paymentReferenceNumber={value}", paymentReferenceNumber.value())
                         .accept("application/json")
                 )
