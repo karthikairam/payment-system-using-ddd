@@ -27,7 +27,7 @@ Please make sure your machine has the following things installed,
   (or)
 
 - If you prefer terminal, you can use `mvnw` (maven wrapper) comes with this repository itself
-  - `mvnc clean install` from the root of the directory to build the module.
+  - `./mvnw clean install` from the root of the directory to build all the modules.
 
 ## Module anatomy
   - All the common modules are group under `common` maven module.
@@ -41,17 +41,27 @@ Please make sure your machine has the following things installed,
  
 ## Local Run 
 Steps to locally run the required applications,
-  - Please run the below services (spring-boot),
-    1. `kafka-server` - recommended to start this first.
-    2. `studen-service`
-    3. `payment-service`
-    4. `receipt-service`
-    
+  - Please run the below services,
+    - Using maven wrapper (maven wrapper doesn't need maven installation locally)
+      Note: run each of these in separate terminals,
+      - `./mvnw clean spring-boot:run --file ./kafka-server/pom.xml`  - recommended to start this first
+      - `./mvnw clean spring-boot:run --file ./student-service/pom.xml`
+      - `./mvnw clean spring-boot:run --file ./payment-service/pom.xml`
+      - `./mvnw clean spring-boot:run --file ./receipt-service/pom.xml`
 
-  - (Optional) Now, you may also compound these runs into single unit as shown below,
-    ![Compound Run](https://github.com/karthikairam/skiply-system/blob/main/docs/img/img.png?raw=true)
+       **(or)**
 
-  - Once all the services are up & running, then go to each service specific Swagger UI to execute the flows as 
+    - Using IDE as spring boot application,
+      - `kafka-server` - recommended to start this first.
+      - `studen-service`
+      - `payment-service`
+      - `receipt-service`
+      
+         (Optional) you may also compound these runs into single unit as shown below,
+         ![Compound Run](https://github.com/karthikairam/skiply-system/blob/main/docs/img/img.png?raw=true)    
+
+
+  - Once all the services are up & running, then go to service specific Swagger UI to execute the flows as 
 described below.
 
 ## Steps to verify the flow
