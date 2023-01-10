@@ -71,8 +71,8 @@ described below.
 
 ## Sequence Diagram
 
-  ```mermaid
-  sequenceDiagram
+```mermaid
+sequenceDiagram
     participant api-consumer
     participant student-service
     participant payment-service
@@ -101,7 +101,7 @@ described below.
     api-consumer->>+receipt-service: GET /v1/receipts?paymentReferenceNumber=xxxxx
     receipt-service->>receipt-service: Retrieve receipt record by payment reference number
     receipt-service-->>-api-consumer: 200 Ok (success) <br/> (payload with receipt details)
-  ```
+```
 
 ## Steps to verify the flow
 
