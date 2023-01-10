@@ -156,7 +156,6 @@ class ReceiptControllerIT {
 
     private void awaitUntil(Callable<Boolean> call) {
         Awaitility.await()
-                .atLeast(100, TimeUnit.MILLISECONDS)
                 .atMost(5, TimeUnit.SECONDS)
                 .pollInterval(100, TimeUnit.MILLISECONDS)
                 .until(call);

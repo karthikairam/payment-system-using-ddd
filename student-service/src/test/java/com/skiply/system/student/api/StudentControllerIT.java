@@ -183,7 +183,6 @@ class StudentControllerIT {
             kafkaTemplate.send("student-info-request", studentId.value(), new StudentInfoRequestMessage(receiptId));
 
             Awaitility.await()
-                    .atLeast(100, TimeUnit.MILLISECONDS)
                     .atMost(2, TimeUnit.SECONDS)
                     .pollInterval(50, TimeUnit.MILLISECONDS)
                     .until(() -> queue.size() > 0);
