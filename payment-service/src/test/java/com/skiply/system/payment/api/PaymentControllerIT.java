@@ -9,6 +9,7 @@ import com.skiply.system.payment.TestKafkaServerConfiguration;
 import com.skiply.system.payment.api.payment.CollectPaymentResponse;
 import com.skiply.system.payment.infrastructure.persistence.repository.PaymentTransactionRepository;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.awaitility.Awaitility;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -124,9 +125,12 @@ class PaymentControllerIT {
             assertThat(transactionEntity.getIdempotencyKey()).isNotNull();
         }, () -> fail("Entity has not saved."));
 
-        Thread.sleep(1000);
+        Awaitility.await()
+                .atMost(2, TimeUnit.SECONDS)
+                .pollInterval(50, TimeUnit.MILLISECONDS)
+                .until(() -> queue.size() > 0);
 
-        var record = queue.poll(100, TimeUnit.MILLISECONDS);
+        var record = queue.poll();
         assertThat(record).isNotNull();
         assertThat(record.key()).isNotNull();
         assertThat(record.value()).isNotNull();
@@ -173,7 +177,49 @@ class PaymentControllerIT {
         var entities = repository.findAll();
         assertThat(entities.size()).isZero();
 
-        Thread.sleep(500);
+        Thread.sleep(100);
+        assertThat(queue.size()).isZero();
+    }
+
+    @Test
+    void givenInvalidCardBadPaymentRequestThenSystemResponseWithError() throws Exception {
+        var result = mockMvc.perform(post("/v1/payments")
+                        .contentType("application/json")
+                        .accept("application/json")
+                        .content("""
+                                {
+                                        "studentId": "83748738",
+                                        "paidBy": "Karthik",
+                                        "idempotencyKey": "20220102123520210",
+                                        "cardDetail": {
+                                                "cardNumber": "54021928179322",
+                                                "cardType": "AE",
+                                                "cardCvv": "9465",
+                                                "cardExpiry": "01/31"
+                                        },
+                                        "totalPrice": 150,
+                                        "purchaseItems": [
+                                                {
+                                                        "feeType": "Tuition",
+                                                        "name": "KG2",
+                                                        "quantity": 3,
+                                                        "price": 50
+                                                }
+                                        ]
+                                }
+                                """)
+                )
+                .andExpect(status().isBadRequest())
+                .andReturn();
+
+        var response = objectMapper.readValue(result.getResponse().getContentAsString(), ErrorDTO.class);
+        assertThat(response.code()).isEqualTo(GlobalExceptionHandler.CLIENT_ERROR);
+        assertThat(response.messages()).contains("CardType AE is not supported");
+
+        var entities = repository.findAll();
+        assertThat(entities.size()).isZero();
+
+        Thread.sleep(100);
         assertThat(queue.size()).isZero();
     }
 }

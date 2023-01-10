@@ -28,7 +28,7 @@ class MockPaymentGatewayProvider implements PaymentGatewayProvider {
         final var responseBuilder = PaymentGatewayResponse.builder();
         if(!supportedCardTypes.contains(request.cardType())) {
             responseBuilder.status(PaymentGatewayStatus.FAILED)
-                    .failureReason("CardType " + request.cardType() + "is not supported");
+                    .failureReason("CardType " + request.cardType() + " is not supported");
         } else {
             responseBuilder.status(PaymentGatewayStatus.SUCCESS)
                     .paymentReferenceNumber(new PaymentReferenceNumber(paymentReferenceNumberGenerator.generateReceiptNumber()));
