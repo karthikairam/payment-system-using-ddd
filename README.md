@@ -73,34 +73,39 @@ described below.
 
 ```mermaid
 sequenceDiagram
-participant api-consumer
-participant student-service
-participant payment-service
-participant receipt-service
-participant kafka-server
-Note over kafka-server: In-memory Embedded Kafka <br/> Run as Spring Boot App
-participant mock-payment-gateway
-Note over mock-payment-gateway: It is just a runtime component <br/>with in "payment-service".<br/> Just separated for a clarity
-api-consumer->>+student-service: POST /v1/students <br/>(register a student)
-student-service->>student-service: persist student record in DB
-student-service-->>-api-consumer: Http status: 201 Created (success)
-api-consumer->>+payment-service: POST /v1/payments <br/>(payload with student-id)
-payment-service->>+mock-payment-gateway: Validate card info and collect payment
-mock-payment-gateway-->>-payment-service: success
-payment-service->>payment-service: persist payment transaction <br/> record in DB
-payment-service-->>kafka-server: Publishes "payment-success" event <br/> (with Transaction & Purchase details)
-payment-service-->>-api-consumer: HTTP status: 201 Created (success) <br/>(payload with payment reference number)
-kafka-server-->>+receipt-service: Consumes "payment-success" event
-receipt-service->>receipt-service: Persistes the receipt record in DB <br/> with PENDING status
-receipt-service-->>-kafka-server: Publishes "student-info-request" event
-kafka-server-->>+student-service: Consumes "student-info-request" event
-student-service->>student-service: Retrieve student info record from DB
-student-service-->>-kafka-server: Publishes "student-info-response" event
-kafka-server-->>+receipt-service: Consumes "student-info-response" event
-receipt-service->>-receipt-service: Update the receipt record with student info in DB <br/> with COMPLETED status
-api-consumer->>+receipt-service: GET /v1/receipts?paymentReferenceNumber=xxxxx
-receipt-service->>receipt-service: Retrieve receipt record by payment reference number
-receipt-service-->>-api-consumer: 200 Ok (success) <br/> (payload with receipt details)
+    participant api as api-consumer
+    participant student as student-service
+    participant payment as payment-service
+    participant receipt as receipt-service
+    participant kafka as kafka-server
+    participant mpg as api-consumer
+    
+    Note over kafka: In-memory Embedded Kafka <br/> Run as Spring Boot App
+    Note over mpg: It is just a runtime component <br/>with in "payment".<br/> Just separated for a clarity
+    
+    api->>+student: POST /v1/students <br/>(register a student)
+        student->>student: persist student record in DB
+    student-->>-api: Http status: 201 Created (success)
+    
+    api->>+payment: POST /v1/payments <br/>(payload with student-id)
+        payment->>+mpg: Validate card info and collect payment
+        mpg-->>-payment: success
+        payment->>payment: persist payment transaction <br/> record in DB
+        payment-->>kafka: Publishes "payment-success" event <br/> (with Transaction & Purchase details)
+    payment-->>-api: HTTP status: 201 Created (success) <br/>(payload with payment reference number)
+    
+    kafka-->>+receipt: Consumes "payment-success" event
+        receipt->>receipt: Persistes the receipt record in DB <br/> with PENDING status
+        receipt-->>-kafka: Publishes "student-info-request" event
+            kafka-->>+student: Consumes "student-info-request" event
+                student->>student: Retrieve student info record from DB
+                student-->>-kafka: Publishes "student-info-response" event
+                    kafka-->>+receipt: Consumes "student-info-response" event
+                        receipt->>-receipt: Update the receipt record with student info in DB <br/> with COMPLETED status
+                        
+    api->>+receipt: GET /v1/receipts?paymentReferenceNumber=xxxxx
+        receipt->>receipt: Retrieve receipt record by payment reference number
+    receipt-->>-api: 200 Ok (success) <br/> (payload with receipt details)
 ```
 
 ## Steps to verify the flow
