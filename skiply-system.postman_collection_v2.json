@@ -1,0 +1,115 @@
+{
+	"variables": [],
+	"info": {
+		"name": "skiply-system",
+		"_postman_id": "ff8ba0ec-e832-3d51-d916-63763927762f",
+		"description": "A student management and fee collection system. Consists of 3 micro-services for student, payment & receipt domains \nand a supporting kafka server.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "register-student",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"studentId\", jsonData.studentId);"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://localhost:8081/v1/students",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"studentId\": \"98989893\",\n    \"studentName\": \"FirstName MiddleName LastName\",\n    \"grade\": \"Grade 1\",\n    \"mobileNumber\": \"+971555555555\",\n    \"schoolName\": \"School Name\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "make-fee-payment",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"paymentReferenceNumber\", jsonData.paymentReferenceNumber);"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://localhost:8082/v1/payments",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"studentId\": \"{{studentId}}\",\n    \"paidBy\": \"Karthik\",\n    \"idempotencyKey\": \"20220102123520225\",\n    \"cardDetail\": {\n            \"cardNumber\": \"54021928179322\",\n            \"cardType\": \"MC\",\n            \"cardCvv\": \"9465\",\n            \"cardExpiry\": \"01/31\"\n    },\n    \"totalPrice\": 151.5,\n    \"purchaseItems\": [\n            {\n                    \"feeType\": \"Tuition\",\n                    \"name\": \"Grade 1\",\n                    \"quantity\": 3,\n                    \"price\": 50.5\n            }\n    ]\n }"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "view-receipt",
+			"request": {
+				"url": {
+					"raw": "http://localhost:8083/v1/receipts?paymentReferenceNumber={{paymentReferenceNumber}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"v1",
+						"receipts"
+					],
+					"query": [
+						{
+							"key": "paymentReferenceNumber",
+							"value": "{{paymentReferenceNumber}}",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"studentId\": \"98989899\",\n    \"paidBy\": \"Karthik\",\n    \"idempotencyKey\": \"20220102123520210\",\n    \"cardDetail\": {\n            \"cardNumber\": \"54021928179322\",\n            \"cardType\": \"MC\",\n            \"cardCvv\": \"9465\",\n            \"cardExpiry\": \"01/31\"\n    },\n    \"totalPrice\": 151.5,\n    \"purchaseItems\": [\n            {\n                    \"feeType\": \"Tuition\",\n                    \"name\": \"Grade 1\",\n                    \"quantity\": 3,\n                    \"price\": 50.5\n            }\n    ]\n }"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
