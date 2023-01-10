@@ -120,7 +120,8 @@ class ReceiptControllerIT {
                         .findByPaymentReferenceNumber(paymentReferenceNumber)
                         .getStatus() == ReceiptStatus.COMPLETED);
 
-        fireGetReceiptApi(paymentReferenceNumber, status().isOk(), studentId, ReceiptStatus.COMPLETED);
+        fireGetReceiptApiAndAssertExpectations(paymentReferenceNumber, status().isOk(), studentId,
+                ReceiptStatus.COMPLETED);
 
         //validate DB for receipt record
         var finalReceiptEntity = repository.findByPaymentReferenceNumber(paymentReferenceNumber);
@@ -151,7 +152,19 @@ class ReceiptControllerIT {
         assertThat(studentInfoRequestEventRecord.value().receiptId().value()).isEqualTo(receiptEntity.getId());
 
         //Before student information is updated, the status of receipt has to be PENDING
-        fireGetReceiptApi(paymentReferenceNumber, status().isAccepted(), studentId, ReceiptStatus.PENDING);
+        fireGetReceiptApiAndAssertExpectations(paymentReferenceNumber, status().isAccepted(), studentId,
+                ReceiptStatus.PENDING);
+    }
+
+    @Test
+    void givenInvalidPaymentReferenceThenSystemReturnsNotFoundError() throws Exception {
+
+        var paymentReferenceNumber = new PaymentReferenceNumber("908070605040302010");
+
+        mockMvc.perform(get("/v1/receipts?paymentReferenceNumber={value}", paymentReferenceNumber.value())
+                        .accept("application/json")
+                )
+                .andExpect(status().isNotFound());
     }
 
     private void awaitUntil(Callable<Boolean> call) {
@@ -161,9 +174,9 @@ class ReceiptControllerIT {
                 .until(call);
     }
 
-    private void fireGetReceiptApi(PaymentReferenceNumber paymentReferenceNumber,
-                                   ResultMatcher Accepted, StudentId studentId,
-                                   ReceiptStatus expectedStatus) throws Exception {
+    private void fireGetReceiptApiAndAssertExpectations(PaymentReferenceNumber paymentReferenceNumber,
+                                                        ResultMatcher Accepted, StudentId studentId,
+                                                        ReceiptStatus expectedStatus) throws Exception {
         mockMvc.perform(get("/v1/receipts?paymentReferenceNumber={value}", paymentReferenceNumber.value())
                         .accept("application/json")
                 )
