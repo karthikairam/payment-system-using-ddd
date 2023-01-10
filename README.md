@@ -78,7 +78,7 @@ sequenceDiagram
     participant payment as payment-service
     participant receipt as receipt-service
     participant kafka as kafka-server
-    participant mpg as api-consumer
+    participant mpg as mock-payment-gateway
     
     Note over kafka: In-memory Embedded Kafka <br/> Run as Spring Boot App
     Note over mpg: It is just a runtime component <br/>with in "payment".<br/> Just separated for a clarity
