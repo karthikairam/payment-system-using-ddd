@@ -13,6 +13,9 @@ import java.util.UUID;
 
 @Repository
 public interface ReceiptEntityRepository extends JpaRepository<ReceiptEntity, UUID> {
+
+    boolean existsByPaymentReferenceNumber(PaymentReferenceNumber paymentReferenceNumber);
+
     ReceiptEntity findByPaymentReferenceNumber(PaymentReferenceNumber paymentReferenceNumber);
 
     @Modifying

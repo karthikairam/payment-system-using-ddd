@@ -8,6 +8,7 @@
 - [Steps to verify the flow](#steps-to-verify-the-flow)
 - [Design Decisions](#design-decisions)
 - [Assumptions](#assumptions)
+- [In-progress items](#in-progress-items)
 
 ## Introduction
 
@@ -114,4 +115,3 @@ before doing this assignment.
 
 ## In-progress items
 - Unit testing
-- Few Integration tests
