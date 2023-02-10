@@ -18,7 +18,7 @@ This service is responsible to collect the payment in skiply system for the scho
 Note: Make sure application is running.
  - Refer: [api-docs](http://localhost:8082/v3/api-docs) for Open API Specification 3.0
  - To access Swagger UI [click here](http://localhost:8082/swagger-ui/index.html)
-   - It is a fully working client to rest the rest endpoint. So postman is actually not needed.
+   - It is a fully working client to test the rest endpoint. So postman is actually not needed.
    - Refer the below sample request & response to test
 
 ## Sample request & response
