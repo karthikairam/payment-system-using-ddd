@@ -1,4 +1,4 @@
-# Skiply system
+# Payment system using DDD - Learning purpose.
 
 ### Table of Contents
 - [Introduction](#introduction)
